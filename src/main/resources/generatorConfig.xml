@@ -149,47 +149,8 @@
                enableSelectByExample="false"
                selectByExampleQueryId="false"
                enableDeleteByPrimaryKey="false">
-            <generatedKey column="id" sqlStatement="MySql"/>
+            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
         </table>
 
-        <table tableName="tm_game_rule"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableDeleteByPrimaryKey="false">
-            <generatedKey column="id" sqlStatement="MySql"/>
-        </table>
-
-        <table tableName="tm_message_rule"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableDeleteByPrimaryKey="false">
-            <generatedKey column="id" sqlStatement="MySql"/>
-        </table>
-
-        <table tableName="tt_game_history"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableDeleteByPrimaryKey="false">
-            <generatedKey column="id" sqlStatement="MySql"/>
-        </table>
-
-        <table tableName="tt_user"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableDeleteByPrimaryKey="false">
-            <generatedKey column="id" sqlStatement="MySql"/>
-        </table>
     </context>
 </generatorConfiguration>
