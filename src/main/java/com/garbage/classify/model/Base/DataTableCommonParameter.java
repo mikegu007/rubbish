@@ -1,4 +1,4 @@
-package com.garbage.classify.model.PageBase;
+package com.garbage.classify.model.Base;
 
 /** 前台datatable传参公共类<br>
  * @Author: shenjian

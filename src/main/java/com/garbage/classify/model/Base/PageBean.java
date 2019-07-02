@@ -1,4 +1,4 @@
-package com.garbage.classify.model.PageBase;
+package com.garbage.classify.model.Base;
 
 import java.io.Serializable;
 import java.util.List;

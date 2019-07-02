@@ -2,6 +2,7 @@ package com.garbage.classify.controller;
 
 import com.garbage.classify.constant.Constant;
 import com.garbage.classify.constant.ErrConstant;
+import com.garbage.classify.model.Base.ResultData;
 import com.garbage.classify.model.exception.ZyTechException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
