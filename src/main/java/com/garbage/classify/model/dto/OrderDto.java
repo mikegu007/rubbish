@@ -1,60 +1,59 @@
 package com.garbage.classify.model.dto;
 
+import com.garbage.classify.constant.ErrConstant;
+import com.garbage.classify.model.exception.ZyTechException;
+import com.garbage.classify.utils.ToolUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel
 public class OrderDto implements Serializable {
-    private Long id;
 
-    private String orderNo;
-
+    @ApiModelProperty(name = "addressId", value = "地址id", required = true)
     private Long addressId;
-
+    @ApiModelProperty(name = "addressName", value = "地址", required = true)
     private String addressName;
-
-    private Long userId;
-
+    @ApiModelProperty(name = "userUuid", value = "下单人uuid", required = true)
     private String userUuid;
-
+    @ApiModelProperty(name = "userName", value = "下单人", required = true)
     private String userName;
-
-    private Long workId;
-
-    private String workUuid;
-
-    private String workName;
-
-    private Byte orderStatus;
-
+    @ApiModelProperty(name = "mobile", value = "手机号", required = true)
     private String mobile;
-
-    private Date payTime;
-
-    private String payOrder;
-
-    private Long payPrice;
-
-    private Date startTime;
-
-    private Date finishTime;
-
+    @ApiModelProperty(name = "remark", value = "备注", required = false)
     private String remark;
 
-    private Long createBy;
+    private List<OrderDetailDto> orderDetailDtos;
 
-    private Date createDate;
 
-    private Long updateBy;
-
-    private Date updateDate;
-
-    private Boolean isDel;
+    public void validateAndInit() {
+        if (ToolUtil.isEmpty(addressId)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "地址id 不能为空");
+        }
+        if (ToolUtil.isEmpty(addressName)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "地址 不能为空");
+        }
+        if (ToolUtil.isEmpty(userUuid)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "下单人uuid 不能为空");
+        }
+        if (ToolUtil.isEmpty(userName)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "下单人 不能为空");
+        }
+        if (ToolUtil.isEmpty(mobile)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "手机号 不能为空");
+        }
+        orderDetailDtos.forEach(that ->{
+            that.validateAndInit();
+        });
+    }
 
 }
