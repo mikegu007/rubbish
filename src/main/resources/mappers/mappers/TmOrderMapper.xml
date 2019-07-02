@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.garbage.classify.dao.TmOrderMapper">
+  <resultMap id="BaseResultMap" type="com.garbage.classify.model.po.TmOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="address_id" jdbcType="BIGINT" property="addressId" />
+    <result column="address_name" jdbcType="VARCHAR" property="addressName" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="work_id" jdbcType="BIGINT" property="workId" />
+    <result column="work_uuid" jdbcType="VARCHAR" property="workUuid" />
+    <result column="work_name" jdbcType="VARCHAR" property="workName" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="pay_order" jdbcType="VARCHAR" property="payOrder" />
+    <result column="pay_price" jdbcType="DECIMAL" property="payPrice" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="BIGINT" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_no, address_id, address_name, user_id, user_uuid, user_name, work_id, work_uuid, 
+    work_name, order_status, mobile, pay_time, pay_order, pay_price, start_time, finish_time, 
+    remark, create_by, create_date, update_by, update_date, is_del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tm_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.garbage.classify.model.po.TmOrder">
+    insert into tm_order (id, order_no, address_id, 
+      address_name, user_id, user_uuid, 
+      user_name, work_id, work_uuid, 
+      work_name, order_status, mobile, 
+      pay_time, pay_order, pay_price, 
+      start_time, finish_time, remark, 
+      create_by, create_date, update_by, 
+      update_date, is_del)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{addressId,jdbcType=BIGINT}, 
+      #{addressName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{userUuid,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{workId,jdbcType=BIGINT}, #{workUuid,jdbcType=VARCHAR}, 
+      #{workName,jdbcType=VARCHAR}, #{orderStatus,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{payOrder,jdbcType=VARCHAR}, #{payPrice,jdbcType=DECIMAL}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.garbage.classify.model.po.TmOrder">
+    insert into tm_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="addressName != null">
+        address_name,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userUuid != null">
+        user_uuid,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="workId != null">
+        work_id,
+      </if>
+      <if test="workUuid != null">
+        work_uuid,
+      </if>
+      <if test="workName != null">
+        work_name,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="payOrder != null">
+        pay_order,
+      </if>
+      <if test="payPrice != null">
+        pay_price,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null">
+        #{addressId,jdbcType=BIGINT},
+      </if>
+      <if test="addressName != null">
+        #{addressName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userUuid != null">
+        #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="workId != null">
+        #{workId,jdbcType=BIGINT},
+      </if>
+      <if test="workUuid != null">
+        #{workUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="workName != null">
+        #{workName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payOrder != null">
+        #{payOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null">
+        #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.garbage.classify.model.po.TmOrder">
+    update tm_order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=BIGINT},
+      </if>
+      <if test="addressName != null">
+        address_name = #{addressName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userUuid != null">
+        user_uuid = #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="workId != null">
+        work_id = #{workId,jdbcType=BIGINT},
+      </if>
+      <if test="workUuid != null">
+        work_uuid = #{workUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="workName != null">
+        work_name = #{workName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payOrder != null">
+        pay_order = #{payOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null">
+        pay_price = #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.garbage.classify.model.po.TmOrder">
+    update tm_order
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      address_id = #{addressId,jdbcType=BIGINT},
+      address_name = #{addressName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      user_uuid = #{userUuid,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      work_id = #{workId,jdbcType=BIGINT},
+      work_uuid = #{workUuid,jdbcType=VARCHAR},
+      work_name = #{workName,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=TINYINT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      pay_order = #{payOrder,jdbcType=VARCHAR},
+      pay_price = #{payPrice,jdbcType=DECIMAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
