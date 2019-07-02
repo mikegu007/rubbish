@@ -1,7 +1,9 @@
 package com.garbage.classify.dao;
 
 import com.garbage.classify.model.po.TmOrder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TmOrderMapper {
     int insert(TmOrder record);
 

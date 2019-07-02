@@ -152,5 +152,35 @@
         <!--<generatedKey column="id" sqlStatement="MySql"/>-->
     </table>
 
+
+        <table tableName="tm_order_detail"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               enableDeleteByPrimaryKey="false">
+            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
+        </table>
+
+        <table tableName="tm_red_package"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               enableDeleteByPrimaryKey="false">
+            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
+        </table>
+
+        <table tableName="tm_user_address"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"
+               enableDeleteByPrimaryKey="false">
+            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
+        </table>
     </context>
 </generatorConfiguration>
