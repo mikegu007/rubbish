@@ -1,5 +1,6 @@
 package com.garbage.classify.model.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TmRedPackage {
@@ -11,7 +12,7 @@ public class TmRedPackage {
 
     private Date expireTime;
 
-    private Long packagePrice;
+    private BigDecimal packagePrice;
 
     private Long createBy;
 
@@ -55,11 +56,11 @@ public class TmRedPackage {
         this.expireTime = expireTime;
     }
 
-    public Long getPackagePrice() {
+    public BigDecimal getPackagePrice() {
         return packagePrice;
     }
 
-    public void setPackagePrice(Long packagePrice) {
+    public void setPackagePrice(BigDecimal packagePrice) {
         this.packagePrice = packagePrice;
     }
 

@@ -5,11 +5,10 @@ import java.util.Objects;
 /**
  * @author Mike
  */
-public enum EnumClassifyType {
+public enum EnumAddressSignType {
 
-    big(new Byte("0"), "big", "大"),
-    middle(new Byte("1"), "middle", "中"),
-    small(new Byte("2"), "smail", "小")
+    home(new Byte("0"), "home", "家"),
+    company(new Byte("1"), "company", "公司"),
 
 
     ;
@@ -18,7 +17,7 @@ public enum EnumClassifyType {
     private String nameEN;
     private String nameCN;
 
-    EnumClassifyType(Byte statusCode, String nameEN, String nameCN) {
+    EnumAddressSignType(Byte statusCode, String nameEN, String nameCN) {
         this.statusCode = statusCode;
         this.nameEN = nameEN;
         this.nameCN = nameCN;
@@ -37,8 +36,8 @@ public enum EnumClassifyType {
     }
 
     public static String getNameEN(Byte typeCode) {
-        EnumClassifyType[] values = EnumClassifyType.values();
-        for (EnumClassifyType value : values) {
+        EnumAddressSignType[] values = EnumAddressSignType.values();
+        for (EnumAddressSignType value : values) {
             if (Objects.equals(value.statusCode, typeCode)) {
                 return value.nameEN;
             }
@@ -47,8 +46,8 @@ public enum EnumClassifyType {
     }
 
     public static String getNameCN(Byte typeCode) {
-        EnumClassifyType[] values = EnumClassifyType.values();
-        for (EnumClassifyType value : values) {
+        EnumAddressSignType[] values = EnumAddressSignType.values();
+        for (EnumAddressSignType value : values) {
             if (Objects.equals(value.statusCode, typeCode)) {
                 return value.nameCN;
             }

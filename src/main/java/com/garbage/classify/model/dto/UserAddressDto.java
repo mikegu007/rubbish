@@ -1,5 +1,8 @@
 package com.garbage.classify.model.dto;
 
+import com.garbage.classify.constant.ErrConstant;
+import com.garbage.classify.model.exception.ZyTechException;
+import com.garbage.classify.utils.ToolUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,14 +28,19 @@ public class UserAddressDto implements Serializable{
 
     private Byte sign;
 
-    private Long createBy;
-
-    private Date createDate;
-
-    private Long updateBy;
-
-    private Date updateDate;
-
-    private Boolean isDel;
+    public void validateAndInit() {
+        if (ToolUtil.isEmpty(address)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "地址 不能为空");
+        }
+        if (ToolUtil.isEmpty(addressDetail)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "地址详情 不能为空");
+        }
+        if (ToolUtil.isEmpty(userUuid)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "下单人uuid 不能为空");
+        }
+        if (ToolUtil.isEmpty(mobile)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "手机号 不能为空");
+        }
+    }
 
 }

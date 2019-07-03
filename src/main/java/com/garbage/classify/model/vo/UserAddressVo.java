@@ -1,11 +1,14 @@
 package com.garbage.classify.model.vo;
 
+import com.garbage.classify.model.enums.EnumAddressSignType;
+import com.garbage.classify.model.po.TmUserAddress;
+import com.garbage.classify.utils.ToolUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,16 +25,19 @@ public class UserAddressVo implements Serializable{
 
     private String addressDetail;
 
-    private Byte sign;
+    private String sign;
 
-    private Long createBy;
+    public UserAddressVo(TmUserAddress that) {
+        if (ToolUtil.isNotEmpty(that)) {
+            this.setId(that.getId());
+            this.setUserUuid(that.getUserUuid());
+            this.setAddress(that.getAddress());
+            this.setAddressDetail(that.getAddressDetail());
+            this.setName(that.getName());
+            this.setMobile(that.getMobile());
+            this.setSign(EnumAddressSignType.getNameCN(that.getSign()));
+        }
+    }
 
-    private Date createDate;
-
-    private Long updateBy;
-
-    private Date updateDate;
-
-    private Boolean isDel;
 
 }

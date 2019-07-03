@@ -25,6 +25,12 @@
     from tm_user_address
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByUuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tm_user_address
+    where uuid = #{userUuid,jdbcType=VARCHAR}
+  </select>
   <insert id="insert" parameterType="com.garbage.classify.model.po.TmUserAddress">
     insert into tm_user_address (id, user_uuid, name, 
       mobile, address, address_detail, 

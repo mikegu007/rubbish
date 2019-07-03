@@ -2,6 +2,7 @@ package com.garbage.classify.service.inf;
 
 
 import com.garbage.classify.model.dto.OrderDto;
+import com.garbage.classify.model.vo.OrderVo;
 
 /**
  * @Author: Mike
@@ -11,5 +12,18 @@ public interface OrderService {
 
     void addOrder(OrderDto orderDto);
 
+    void cancelUserOrder(String orderNo,String remark);
+
+    void cancelWokerOrder(String orderNo,String remark);
+    //到达目的地
+    void updateDealWithStatus(String orderNo);
+    //完成订单
+    void finishOrder(String orderNo);
+    //抢单
+    void grabOrder(String orderNo,String uuid, Long workId, String workName);
+
+    void payRollback(String orderNo,String payNo);
+
+    OrderVo getOrderInfo(String orderNo);
 
 }

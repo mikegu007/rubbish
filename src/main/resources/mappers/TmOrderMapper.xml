@@ -26,6 +26,28 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="is_del" jdbcType="BIT" property="isDel" />
   </resultMap>
+
+  <resultMap id="BaseResultInfoMap" type="com.garbage.classify.model.vo.OrderVo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="address_id" jdbcType="BIGINT" property="addressId" />
+    <result column="address_name" jdbcType="VARCHAR" property="addressName" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="work_id" jdbcType="BIGINT" property="workId" />
+    <result column="work_uuid" jdbcType="VARCHAR" property="workUuid" />
+    <result column="work_name" jdbcType="VARCHAR" property="workName" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="pay_order" jdbcType="VARCHAR" property="payOrder" />
+    <result column="pay_price" jdbcType="DECIMAL" property="payPrice" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, order_no, address_id, address_name, user_id, user_uuid, user_name, work_id, work_uuid, 
     work_name, order_status, mobile, pay_time, pay_order, pay_price, start_time, finish_time, 
@@ -37,6 +59,21 @@
     from tm_order
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectVoInfoByOrderNo" parameterType="java.lang.String" resultMap="BaseResultInfoMap">
+    select
+    <include refid="Base_Column_List" />
+    from tm_order
+    where orderNo = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tm_order
+    where orderNo = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
   <insert id="insert" parameterType="com.garbage.classify.model.po.TmOrder">
     insert into tm_order (id, order_no, address_id, 
       address_name, user_id, user_uuid, 

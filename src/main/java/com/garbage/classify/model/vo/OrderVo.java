@@ -1,5 +1,6 @@
 package com.garbage.classify.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,27 +34,18 @@ public class OrderVo  implements Serializable {
     private Byte orderStatus;
 
     private String mobile;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date payTime;
 
     private String payOrder;
 
     private Long payPrice;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishTime;
 
     private String remark;
 
-    private Long createBy;
-
-    private Date createDate;
-
-    private Long updateBy;
-
-    private Date updateDate;
-
-    private Boolean isDel;
 
 }

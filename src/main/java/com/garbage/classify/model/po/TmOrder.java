@@ -1,5 +1,6 @@
 package com.garbage.classify.model.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TmOrder {
@@ -31,7 +32,7 @@ public class TmOrder {
 
     private String payOrder;
 
-    private Long payPrice;
+    private BigDecimal payPrice;
 
     private Date startTime;
 
@@ -161,11 +162,11 @@ public class TmOrder {
         this.payOrder = payOrder == null ? null : payOrder.trim();
     }
 
-    public Long getPayPrice() {
+    public BigDecimal getPayPrice() {
         return payPrice;
     }
 
-    public void setPayPrice(Long payPrice) {
+    public void setPayPrice(BigDecimal payPrice) {
         this.payPrice = payPrice;
     }
 

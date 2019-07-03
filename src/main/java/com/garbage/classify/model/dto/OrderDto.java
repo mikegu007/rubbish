@@ -32,6 +32,9 @@ public class OrderDto implements Serializable {
     @ApiModelProperty(name = "remark", value = "备注", required = false)
     private String remark;
 
+    @ApiModelProperty(name = "redId", value = "红包id", required = false)
+    private Long redId;
+
     private List<OrderDetailDto> orderDetailDtos;
 
 
