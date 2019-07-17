@@ -33,20 +33,20 @@ public class SwaggerConfiguration {
     @Bean
     public Docket createRestApi() {
         //设置请求头信息
-        ParameterBuilder xyx_jwt = new ParameterBuilder();
-        ParameterBuilder api_jwt = new ParameterBuilder();
-        ParameterBuilder smcv_user_jwt = new ParameterBuilder();
-        List<Parameter> pars = new ArrayList<Parameter>();
-        pars.add(xyx_jwt.build());
-        pars.add(api_jwt.build());
-        pars.add(smcv_user_jwt.build());
+//        ParameterBuilder xyx_jwt = new ParameterBuilder();
+//        ParameterBuilder api_jwt = new ParameterBuilder();
+//        ParameterBuilder smcv_user_jwt = new ParameterBuilder();
+//        List<Parameter> pars = new ArrayList<Parameter>();
+//        pars.add(xyx_jwt.build());
+//        pars.add(api_jwt.build());
+//        pars.add(smcv_user_jwt.build());
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .host(swaggerHost)
+//                .host(swaggerHost)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.garbage.classify.controller"))
                 .build()
-                .globalOperationParameters(pars)
+                //.globalOperationParameters(pars)
                 .apiInfo(apiInfo());
     }
 
