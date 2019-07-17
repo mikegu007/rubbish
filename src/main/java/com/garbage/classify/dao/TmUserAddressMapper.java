@@ -7,7 +7,6 @@ import java.util.List;
 
 @Repository
 public interface TmUserAddressMapper {
-    int insert(TmUserAddress record);
 
     int insertSelective(TmUserAddress record);
 
@@ -16,6 +15,4 @@ public interface TmUserAddressMapper {
     List<TmUserAddress> selectByUuid(String userUuid);
 
     int updateByPrimaryKeySelective(TmUserAddress record);
-
-    int updateByPrimaryKey(TmUserAddress record);
 }

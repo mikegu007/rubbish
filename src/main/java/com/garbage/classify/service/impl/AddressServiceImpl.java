@@ -4,7 +4,7 @@ package com.garbage.classify.service.impl;
 import com.garbage.classify.constant.Constant;
 import com.garbage.classify.constant.ErrConstant;
 import com.garbage.classify.dao.TmUserAddressMapper;
-import com.garbage.classify.model.dto.UserAddressDto;
+import com.garbage.classify.model.dto.UserAddress.UserAddressDto;
 import com.garbage.classify.model.exception.ZyTechException;
 import com.garbage.classify.model.po.TmUserAddress;
 import com.garbage.classify.model.vo.UserAddressVo;
@@ -31,16 +31,20 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private TmUserAddressMapper tmUserAddressMapper;
 
+
     @Override
-    public void addAddress(UserAddressDto userAddressDto) {
+    public Long addAddress(UserAddressDto userAddressDto) {
+        logger.info("用户地址新增 详情[{}]",userAddressDto);
         userAddressDto.validateAndInit();
         TmUserAddress tmUserAddress = new TmUserAddress();
         BeanUtils.copyProperties(userAddressDto, tmUserAddress);
         tmUserAddressMapper.insertSelective(tmUserAddress);
+        return tmUserAddress.getId();
     }
 
     @Override
-    public void saveAddress(UserAddressDto userAddressDto) {
+    public void updateAddress(UserAddressDto userAddressDto) {
+        logger.info("用户地址更新 详情[{}]",userAddressDto);
         userAddressDto.validateAndInit();
         if (ToolUtil.isEmpty(userAddressDto.getId())) {
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "id 不能为空");
@@ -57,6 +61,19 @@ public class AddressServiceImpl implements AddressService {
         }
         List<TmUserAddress> tmUserAddresses = tmUserAddressMapper.selectByUuid(uuid);
         return this.tranformTmToVo(tmUserAddresses);
+    }
+
+    @Override
+    public Long editUserAddress(UserAddressDto userAddressDto) {
+        Long id = userAddressDto.getId();
+        if(ToolUtil.isEmpty(id)){
+            // 新增用户地址信息
+            addAddress(userAddressDto);
+        }else {
+            // 编辑用户地址信息
+            updateAddress(userAddressDto);
+        }
+        return null;
     }
 
 

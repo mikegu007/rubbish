@@ -14,10 +14,12 @@
     <result column="update_by" jdbcType="BIGINT" property="updateBy" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_uuid, name, mobile, address, address_detail, sign, create_by, create_date, 
-    update_by, update_date, is_del
+    update_by, update_date, is_del,latitude,longitude
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -31,18 +33,6 @@
     from tm_user_address
     where uuid = #{userUuid,jdbcType=VARCHAR}
   </select>
-  <insert id="insert" parameterType="com.garbage.classify.model.po.TmUserAddress">
-    insert into tm_user_address (id, user_uuid, name, 
-      mobile, address, address_detail, 
-      sign, create_by, create_date, 
-      update_by, update_date, is_del
-      )
-    values (#{id,jdbcType=BIGINT}, #{userUuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR}, 
-      #{sign,jdbcType=TINYINT}, #{createBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.garbage.classify.model.po.TmUserAddress">
     insert into tm_user_address
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -82,6 +72,12 @@
       <if test="isDel != null">
         is_del,
       </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -119,6 +115,12 @@
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=BIT},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,22 +160,13 @@
       <if test="isDel != null">
         is_del = #{isDel,jdbcType=BIT},
       </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.garbage.classify.model.po.TmUserAddress">
-    update tm_user_address
-    set user_uuid = #{userUuid,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      address_detail = #{addressDetail,jdbcType=VARCHAR},
-      sign = #{sign,jdbcType=TINYINT},
-      create_by = #{createBy,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=BIGINT},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      is_del = #{isDel,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
