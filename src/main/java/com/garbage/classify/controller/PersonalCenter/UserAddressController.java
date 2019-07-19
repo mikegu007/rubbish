@@ -1,5 +1,6 @@
 package com.garbage.classify.controller.PersonalCenter;
 
+import com.garbage.classify.model.Base.PageBean;
 import com.garbage.classify.model.Base.ResultData;
 import com.garbage.classify.model.dto.UserAddress.UserAddressDto;
 import com.garbage.classify.service.inf.AddressService;
@@ -29,12 +30,11 @@ public class UserAddressController {
     }
 
 
-    @ApiOperation(value = "新增或编辑用户地址",notes = "新增或编辑用户地址")
-    @RequestMapping(value = "/list/",method = RequestMethod.POST)
-    public ResultData<Long> getUserAddressByUuid(
-            @ApiParam(name = "uuid",value = "用户UUID")
-            @RequestParam(name = "uuid") String uuid){
-        return new ResultData<Long>(ResultData.SUCCESS,"","用户地址维护成功！",addressService.editUserAddress(userAddressDto));
+    @ApiOperation(value = "查询用户地址列表（分页）",notes = "查询用户地址列表")
+    @RequestMapping(value = "/list",method = RequestMethod.POST)
+    public PageBean<Long> getUserAddressByUuid(){
+        // TODO: 2019/7/19 分页查询用户地址列表 
+        return null;
     }
 
 
