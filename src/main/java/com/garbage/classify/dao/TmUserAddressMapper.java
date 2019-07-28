@@ -1,6 +1,7 @@
 package com.garbage.classify.dao;
 
 import com.garbage.classify.model.po.TmUserAddress;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface TmUserAddressMapper {
     List<TmUserAddress> selectByUuid(String userUuid);
 
     int updateByPrimaryKeySelective(TmUserAddress record);
+
+    List<TmUserAddress> queryUserAddressListByUuid(@Param("uuid") String uuid);
+
+    int delUserAddressById(@Param("id") Long id);
 }

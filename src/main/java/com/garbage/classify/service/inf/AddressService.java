@@ -23,4 +23,17 @@ public interface AddressService {
      * @return
      */
     Long editUserAddress(UserAddressDto userAddressDto);
+
+    /**
+     * 根据用户UUID查询用户信息
+     * @param uuid
+     * @return
+     */
+    List<UserAddressDto> getUserAddressByUuid(String uuid);
+
+    /**
+     * 删除用户地址
+     * @param id
+     */
+    void delUserAddressById(Long id);
 }

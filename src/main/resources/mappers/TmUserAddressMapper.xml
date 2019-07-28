@@ -169,4 +169,21 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryUserAddressListByUuid" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    `tm_user_address` a
+    WHERE a.`is_del` = 0
+    AND a.`user_uuid` = #{uuid}
+  </select>
+
+  <update id="delUserAddressById">
+    UPDATE
+    tm_user_address
+    SET
+    `is_del` = 1
+    WHERE `id` = #{id}
+  </update>
 </mapper>

@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -84,5 +85,35 @@ public class AddressServiceImpl implements AddressService {
             userAddressVos.add(userAddressVo);
         });
         return userAddressVos;
+    }
+
+    @Override
+    @Cacheable(value = "rubbish:user:address:list:uuid",key = "'rubbish:user:address:list:uuid:'+#p0")
+    public List<UserAddressDto> getUserAddressByUuid(String uuid) {
+        List<TmUserAddress> tmUserAddressList = tmUserAddressMapper.queryUserAddressListByUuid(uuid);
+        List<UserAddressDto> userAddressDtoList =new ArrayList<>();
+        tmUserAddressList.stream().forEach(x->{
+            userAddressDtoList.add(transformUserAddressDto(x));
+        });
+        return userAddressDtoList;
+    }
+
+    /**
+     * 数据类型转换
+     * @param tmUserAddress
+     * @return
+     */
+    private UserAddressDto transformUserAddressDto(TmUserAddress tmUserAddress){
+        if(!ToolUtil.isEmpty(tmUserAddress)){
+            UserAddressDto userAddressDto=new UserAddressDto();
+            BeanUtils.copyProperties(tmUserAddress,userAddressDto);
+            return userAddressDto;
+        }
+        return null;
+    }
+
+    @Override
+    public void delUserAddressById(Long id) {
+        tmUserAddressMapper.delUserAddressById(id);
     }
 }
