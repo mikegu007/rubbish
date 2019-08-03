@@ -142,45 +142,15 @@
 
            注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
         -->
-        <table tableName="tm_order"
-                               enableCountByExample="false"
-                               enableUpdateByExample="false"
-                               enableDeleteByExample="false"
-                               enableSelectByExample="false"
-                               selectByExampleQueryId="false"
-                               enableDeleteByPrimaryKey="false">
-        <!--<generatedKey column="id" sqlStatement="MySql"/>-->
-    </table>
 
-
-        <table tableName="tm_order_detail"
+        <table tableName="tm_user"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"
                enableDeleteByPrimaryKey="false">
-            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
-        </table>
-
-        <table tableName="tm_red_package"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableDeleteByPrimaryKey="false">
-            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
-        </table>
-
-        <table tableName="tm_user_address"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"
-               enableDeleteByPrimaryKey="false">
-            <!--<generatedKey column="id" sqlStatement="MySql"/>-->
+            <generatedKey column="id" sqlStatement="MySql"/>
         </table>
     </context>
 </generatorConfiguration>
