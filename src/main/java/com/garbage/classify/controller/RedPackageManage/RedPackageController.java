@@ -21,10 +21,10 @@ public class RedPackageController {
     private RedPackageService redPackageService;
 
     @ApiOperation(value = "根据UUID获取用户有效红包数量",notes = "根据UUID获取用户有效红包数量")
-    @RequestMapping(value = "/openId",method = RequestMethod.GET)
-    public ResultData<UserInfoDto> queryUserInfoByOpenId(
-            @ApiParam(name = "openId",value = "微信openId",required = true)
-            @RequestParam(name = "openId") String openId){
-        return new ResultData<UserInfoDto>(ResultData.SUCCESS,"","用户信息新增和编辑成功！",userService.queryUserInfoByOpenId(openId));
+    @RequestMapping(value = "/uuid",method = RequestMethod.GET)
+    public ResultData<Integer> queryRedPacketCountByUuid(
+            @ApiParam(name = "uuid",value = "uuid",required = true)
+            @RequestParam(name = "uuid") String uuid){
+        return new ResultData<Integer>(ResultData.SUCCESS,"","用户信息新增和编辑成功！",redPackageService.queryRedPacketCountByUuid(uuid));
     }
 }

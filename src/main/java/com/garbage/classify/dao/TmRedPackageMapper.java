@@ -1,6 +1,7 @@
 package com.garbage.classify.dao;
 
 import com.garbage.classify.model.po.TmRedPackage;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,4 +15,6 @@ public interface TmRedPackageMapper {
     int updateByPrimaryKeySelective(TmRedPackage record);
 
     int updateByPrimaryKey(TmRedPackage record);
+
+    Integer selectRedPacketCountByUuid(@Param("uuid") String uuid);
 }
