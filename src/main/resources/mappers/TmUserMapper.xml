@@ -138,4 +138,21 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <update id="updateDefaultAddressByUuid">
+    UPDATE tm_user
+    SET
+    `default_address_id` = #{id}
+    WHERE `is_del` = 0
+    AND `uuid` = #{userUuid}
+  </update>
+
+  <select id="queryUserInfoByUuid" resultMap="BaseResultMap">
+    SELECT
+     <include refid="Base_Column_List"/>
+    FROM
+    tm_user a
+    WHERE a.`is_del` = 0
+    AND a.`uuid` = #{uuid}
+  </select>
 </mapper>

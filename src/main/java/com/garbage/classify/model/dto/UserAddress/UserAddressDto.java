@@ -41,6 +41,9 @@ public class UserAddressDto {
     @ApiModelProperty(name = "latitude",value = "纬度")
     private String latitude;
 
+    @ApiModelProperty(name = "defaultAddress",value = "是否设置默认为默认地址",example = "true")
+    private Boolean defaultAddress;
+
     public void validateAndInit() {
         if (ToolUtil.isEmpty(address)) {
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "地址 不能为空");

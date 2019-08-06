@@ -4,8 +4,10 @@ package com.garbage.classify.service.impl;
 import com.garbage.classify.constant.Constant;
 import com.garbage.classify.constant.ErrConstant;
 import com.garbage.classify.dao.TmUserAddressMapper;
+import com.garbage.classify.dao.TmUserMapper;
 import com.garbage.classify.model.dto.UserAddress.UserAddressDto;
 import com.garbage.classify.model.exception.ZyTechException;
+import com.garbage.classify.model.po.TmUser;
 import com.garbage.classify.model.po.TmUserAddress;
 import com.garbage.classify.model.vo.UserAddressVo;
 import com.garbage.classify.service.inf.AddressService;
@@ -31,6 +33,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private TmUserAddressMapper tmUserAddressMapper;
+
+    @Autowired
+    private TmUserMapper tmUserMapper;
 
 
     @Override
@@ -66,13 +71,20 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Long editUserAddress(UserAddressDto userAddressDto) {
+        logger.info("新增或者编辑用户信息 详情[{}]",userAddressDto.toString());
         Long id = userAddressDto.getId();
         if(ToolUtil.isEmpty(id)){
             // 新增用户地址信息
-            addAddress(userAddressDto);
+            id = addAddress(userAddressDto);
         }else {
             // 编辑用户地址信息
             updateAddress(userAddressDto);
+        }
+        // 设置默认地址
+        Boolean defaultAddress = userAddressDto.getDefaultAddress();
+        if(defaultAddress){
+            logger.info("设置默认地址 地址[{}] uuid[{}]",id,userAddressDto.getUserUuid());
+            tmUserMapper.updateDefaultAddressByUuid(id,userAddressDto.getUserUuid());
         }
         return null;
     }
@@ -90,11 +102,25 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Cacheable(value = "rubbish:user:address:list:uuid",key = "'rubbish:user:address:list:uuid:'+#p0")
     public List<UserAddressDto> getUserAddressByUuid(String uuid) {
+        // 获取用户信息
+        TmUser tmUser = tmUserMapper.queryUserInfoByUuid(uuid);
+        if(ToolUtil.isEmpty(tmUser)){
+            throw new ZyTechException(ErrConstant.BUSI_RETURN_ERR,"未查询到用户信息");
+        }
+        // 获取用户地址
         List<TmUserAddress> tmUserAddressList = tmUserAddressMapper.queryUserAddressListByUuid(uuid);
+        // 数据转换
         List<UserAddressDto> userAddressDtoList =new ArrayList<>();
         tmUserAddressList.stream().forEach(x->{
             userAddressDtoList.add(transformUserAddressDto(x));
         });
+        // 默认地址
+        for (UserAddressDto userAddressDto:userAddressDtoList){
+            if(userAddressDto.getId().equals(tmUser.getDefaultAddressId())){
+                userAddressDto.setDefaultAddress(true);
+                break;
+            }
+        }
         return userAddressDtoList;
     }
 

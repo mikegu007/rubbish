@@ -21,4 +21,19 @@ public interface TmUserMapper {
      * @param tmUser
      */
     Long updateByPrimaryKeySelective(TmUser tmUser);
+
+    /**
+     * 设置用户默认地址
+     * @param id
+     * @param userUuid
+     * @return
+     */
+    Long updateDefaultAddressByUuid(@Param("id") Long id,@Param("userUuid") String userUuid);
+
+    /**
+     * 根据用户UUID查询用户信息
+     * @param uuid
+     * @return
+     */
+    TmUser queryUserInfoByUuid(@Param("uuid") String uuid);
 }
