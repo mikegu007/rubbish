@@ -1,5 +1,6 @@
 package com.garbage.classify.controller.RedPackageManage;
 
+import com.garbage.classify.model.Base.PageBean;
 import com.garbage.classify.model.Base.ResultData;
 import com.garbage.classify.model.dto.UserInfo.UserInfoDto;
 import com.garbage.classify.service.inf.RedPackageService;
@@ -27,4 +28,12 @@ public class RedPackageController {
             @RequestParam(name = "uuid") String uuid){
         return new ResultData<Integer>(ResultData.SUCCESS,"","用户信息新增和编辑成功！",redPackageService.queryRedPacketCountByUuid(uuid));
     }
+
+//    @ApiOperation(value = "根据UUID获取用户有效红包列表",notes = "根据UUID获取用户有效红包列表")
+//    @RequestMapping(value = "/uuid",method = RequestMethod.GET)
+//    public PageBean<Integer> queryRedPacketCountByUuid(
+//            @ApiParam(name = "uuid",value = "uuid",required = true)
+//            @RequestParam(name = "uuid") String uuid){
+//        return new ResultData<Integer>(ResultData.SUCCESS,"","用户信息新增和编辑成功！",redPackageService.queryRedPacketCountByUuid(uuid));
+//    }
 }
