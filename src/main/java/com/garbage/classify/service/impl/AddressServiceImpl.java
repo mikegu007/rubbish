@@ -133,6 +133,7 @@ public class AddressServiceImpl implements AddressService {
         if(!ToolUtil.isEmpty(tmUserAddress)){
             UserAddressDto userAddressDto=new UserAddressDto();
             BeanUtils.copyProperties(tmUserAddress,userAddressDto);
+            userAddressDto.setDefaultAddress(false);
             return userAddressDto;
         }
         return null;
