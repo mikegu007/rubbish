@@ -7,12 +7,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "用户地址")
-public class UserAddressDto {
+public class UserAddressDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(name = "id",value = "用户地址ID")
     private Long id;

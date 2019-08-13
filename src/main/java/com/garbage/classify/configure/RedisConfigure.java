@@ -96,7 +96,7 @@ public class RedisConfigure extends CachingConfigurerSupport {
     }
 
     @Bean(name = "authCenterRedisTemplate")
-    public RedisTemplate<String, Object> memberRedisTemplate(){
+    public RedisTemplate<String, Object> authCenterRedisTemplate(){
         RedisTemplate<String, Object> redisTemplateObject = new RedisTemplate<String, Object>();
         redisTemplateObject.setConnectionFactory(memberRedisConnectionFactory());
         setSerializer(redisTemplateObject);
