@@ -6,6 +6,7 @@ import com.garbage.classify.model.dto.OrderDto;
 import com.garbage.classify.service.inf.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class OrderController {
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     @ApiOperation(value = "新增订单", notes = "新增订单")
     public ResultData addOrder(
+            @ApiParam(name = "orderDto", value = "订单保存对象", required = true)
             @RequestBody OrderDto orderDto) {
         orderService.addOrder(orderDto);
         return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, null);

@@ -61,6 +61,12 @@ public class UserAddressDto implements Serializable {
         if (ToolUtil.isEmpty(mobile)) {
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "手机号 不能为空");
         }
+        if (ToolUtil.isEmpty(longitude)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "经度 不能为空");
+        }
+        if (ToolUtil.isEmpty(latitude)) {
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "纬度 不能为空");
+        }
     }
 
 }
