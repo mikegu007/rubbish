@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -21,6 +22,7 @@ public class UserAddressDto implements Serializable {
     @ApiModelProperty(name = "id",value = "用户地址ID")
     private Long id;
 
+    @NotNull(message = "用户UUID信息不能为空!")
     @ApiModelProperty(name = "userUuid",value = "用户UUID")
     private String userUuid;
 
@@ -39,9 +41,11 @@ public class UserAddressDto implements Serializable {
     @ApiModelProperty(name = "sign",value = "地址标签")
     private Byte sign;
 
+    @NotNull(message = "经度信息不能为空!")
     @ApiModelProperty(name = "longitude",value = "经度")
     private String longitude;
 
+    @NotNull(message = "纬度信息不能为空!")
     @ApiModelProperty(name = "latitude",value = "纬度")
     private String latitude;
 
