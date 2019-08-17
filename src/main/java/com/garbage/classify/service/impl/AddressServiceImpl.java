@@ -11,6 +11,7 @@ import com.garbage.classify.model.po.TmUser;
 import com.garbage.classify.model.po.TmUserAddress;
 import com.garbage.classify.model.vo.UserAddressVo;
 import com.garbage.classify.service.inf.AddressService;
+import com.garbage.classify.service.inf.RemoveCacheService;
 import com.garbage.classify.utils.ToolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private TmUserMapper tmUserMapper;
+
+    @Autowired
+    private RemoveCacheService removeCacheService;
 
 
     @Override
@@ -86,6 +90,8 @@ public class AddressServiceImpl implements AddressService {
             logger.info("设置默认地址 地址[{}] uuid[{}]",id,userAddressDto.getUserUuid());
             tmUserMapper.updateDefaultAddressByUuid(id,userAddressDto.getUserUuid());
         }
+        // 清除缓存
+        removeCacheService.removeUserAddressByUuid(userAddressDto.getUserUuid());
         return null;
     }
 
@@ -141,6 +147,12 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void delUserAddressById(Long id) {
-        tmUserAddressMapper.delUserAddressById(id);
+        // 查询用户地址
+        TmUserAddress tmUserAddress = tmUserAddressMapper.selectByPrimaryKey(id);
+        if(tmUserAddress!=null){
+            tmUserAddressMapper.delUserAddressById(id);
+            // 清除缓存
+            removeCacheService.removeUserAddressByUuid(tmUserAddress.getUserUuid());
+        }
     }
 }
