@@ -8,6 +8,14 @@
     <result column="classify_count" jdbcType="INTEGER" property="classifyCount" />
     <result column="classify_name" jdbcType="VARCHAR" property="classifyName" />
   </resultMap>
+
+  <resultMap id="BaseResultMapVo" type="com.garbage.classify.model.vo.OrderDetailVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="classify_type" jdbcType="TINYINT" property="classifyType" />
+    <result column="classify_count" jdbcType="INTEGER" property="classifyCount" />
+    <result column="classify_name" jdbcType="VARCHAR" property="classifyName" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, order_no, classify_type, classify_count, classify_name
   </sql>
@@ -17,6 +25,14 @@
     from tm_order_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMapVo">
+    select
+    <include refid="Base_Column_List" />
+    from tm_order_detail
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
   <insert id="insert" parameterType="com.garbage.classify.model.po.TmOrderDetail">
     insert into tm_order_detail (id, order_no, classify_type, 
       classify_count, classify_name)

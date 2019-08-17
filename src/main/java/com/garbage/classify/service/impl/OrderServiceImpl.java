@@ -6,7 +6,9 @@ import com.garbage.classify.constant.ErrConstant;
 import com.garbage.classify.dao.TmOrderDetailMapper;
 import com.garbage.classify.dao.TmOrderMapper;
 import com.garbage.classify.dao.TmRedPackageMapper;
+import com.garbage.classify.model.Base.PageBean;
 import com.garbage.classify.model.dto.OrderDto;
+import com.garbage.classify.model.dto.OrderListDto;
 import com.garbage.classify.model.enums.EnumClassifyType;
 import com.garbage.classify.model.enums.EnumOrderStatus;
 import com.garbage.classify.model.exception.ZyTechException;
@@ -17,6 +19,7 @@ import com.garbage.classify.model.vo.OrderVo;
 import com.garbage.classify.service.inf.OrderService;
 import com.garbage.classify.utils.DateUtil;
 import com.garbage.classify.utils.ToolUtil;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: Mike
@@ -86,7 +90,6 @@ public class OrderServiceImpl implements OrderService {
         });
         tmOrder.setPayPrice(payPrice);
         tmOrderMapper.insertSelective(tmOrder);
-        //todo  发起支付请求
     }
 
     @Override
@@ -117,9 +120,13 @@ public class OrderServiceImpl implements OrderService {
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
         if (ToolUtil.isNotEmpty(tmOrder)&&tmOrder.getOrderStatus().equals(EnumOrderStatus.toFinish.getStatusCode())){
-            tmOrder.setOrderStatus(EnumOrderStatus.cancel.getStatusCode());
+            tmOrder.setOrderStatus(EnumOrderStatus.toDealWith.getStatusCode());
+            tmOrder.setWorkUuid(null);
+            tmOrder.setWorkId(null);
+            tmOrder.setWorkName(null);
+            tmOrder.setStartTime(new Date());
             tmOrder.setRemark(tmOrder.getRemark()+";"+remark);
-            tmOrderMapper.updateByPrimaryKeySelective(tmOrder);
+            tmOrderMapper.updateByPrimaryKey(tmOrder);
         }
     }
 
@@ -159,6 +166,9 @@ public class OrderServiceImpl implements OrderService {
         if (ToolUtil.isNotEmpty(uuid)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "抢单人uuid 不能为空");
         }
+        if (tmOrderMapper.selectCountByworkId(uuid)>2){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "只允许同时进行两单");
+        }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
         if (ToolUtil.isNotEmpty(tmOrder)&&(!tmOrder.getOrderStatus().equals(EnumOrderStatus.toDealWith.getStatusCode()))){
             tmOrder.setOrderStatus(EnumOrderStatus.toDealWith.getStatusCode());
@@ -194,6 +204,22 @@ public class OrderServiceImpl implements OrderService {
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
         return tmOrderMapper.selectVoInfoByOrderNo(orderNo);
+    }
+
+    @Override
+    public List<OrderVo> grabOrderList(String longitude,String latitude) {
+        return null;
+    }
+
+    @Override
+    public PageBean<OrderVo> myOrderList(OrderListDto orderListDto) {
+        PageBean<OrderVo> pageBean = new PageBean<>();
+        orderListDto.validateAndInit();
+        int count = tmOrderMapper.getCountMyOrder(orderListDto);
+        PageHelper.startPage(orderListDto.getStart(), orderListDto.getLength());
+        pageBean.setData(tmOrderMapper.getMyOrder(orderListDto));
+        pageBean.setCount(count);
+        return pageBean;
     }
 
     /**

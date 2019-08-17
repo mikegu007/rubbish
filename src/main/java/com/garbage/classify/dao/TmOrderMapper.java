@@ -1,8 +1,13 @@
 package com.garbage.classify.dao;
 
+import com.garbage.classify.model.dto.OrderListDto;
 import com.garbage.classify.model.po.TmOrder;
 import com.garbage.classify.model.vo.OrderVo;
+import io.swagger.models.auth.In;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface TmOrderMapper {
@@ -20,4 +25,12 @@ public interface TmOrderMapper {
     int updateByPrimaryKeySelective(TmOrder record);
 
     int updateByPrimaryKey(TmOrder record);
+
+    Integer selectCountByworkId(@Param("workId")String workId);
+
+    Integer getCountMyOrder(OrderListDto orderListDto);
+
+    List<OrderVo> getMyOrder(OrderListDto orderListDto);
+
+
 }

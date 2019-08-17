@@ -25,6 +25,8 @@
     <result column="update_by" jdbcType="BIGINT" property="updateBy" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
   </resultMap>
 
   <resultMap id="BaseResultInfoMap" type="com.garbage.classify.model.vo.OrderVo">
@@ -46,12 +48,17 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <collection property="orderDetailVos" column="order_no" fetchType="eager"
+                select="com.garbage.classify.dao.TmOrderDetailMapper.selectByOrderNo"/>
+
   </resultMap>
 
   <sql id="Base_Column_List">
     id, order_no, address_id, address_name, user_id, user_uuid, user_name, work_id, work_uuid, 
     work_name, order_status, mobile, pay_time, pay_order, pay_price, start_time, finish_time, 
-    remark, create_by, create_date, update_by, update_date, is_del
+    remark, create_by, create_date, update_by, update_date, is_del,latitude,longitude
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -82,7 +89,7 @@
       pay_time, pay_order, pay_price, 
       start_time, finish_time, remark, 
       create_by, create_date, update_by, 
-      update_date, is_del)
+      update_date, is_del,latitude,longitude)
     values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{addressId,jdbcType=BIGINT}, 
       #{addressName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{userUuid,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{workId,jdbcType=BIGINT}, #{workUuid,jdbcType=VARCHAR}, 
@@ -90,7 +97,7 @@
       #{payTime,jdbcType=TIMESTAMP}, #{payOrder,jdbcType=VARCHAR}, #{payPrice,jdbcType=DECIMAL}, 
       #{startTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT})
+      #{updateDate,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.garbage.classify.model.po.TmOrder">
     insert into tm_order
@@ -164,6 +171,12 @@
       <if test="isDel != null">
         is_del,
       </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -234,6 +247,12 @@
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=BIT},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -306,6 +325,12 @@
       <if test="isDel != null">
         is_del = #{isDel,jdbcType=BIT},
       </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -332,7 +357,43 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=BIGINT},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
-      is_del = #{isDel,jdbcType=BIT}
+      is_del = #{isDel,jdbcType=BIT},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+
+
+  <select id="selectCountByworkId" resultType="java.lang.Integer">
+    select count(1)
+    from tm_order
+    where is_del=0
+    <if test="workId!=null">
+      and work_uuid=#{workId}
+    </if>
+    and order_status = 3
+  </select>
+
+
+  <select id="getCountMyOrder" resultType="Integer" parameterType="com.garbage.classify.model.dto.OrderListDto">
+    SELECT
+    count(1)
+    FROM tm_order
+    where
+    is_del = 0 and
+    (user_uuid =#{uuid} or work_uuid=#{uuid})
+    ORDER BY create_date DESC
+  </select>
+
+  <select id="getMyOrder" resultMap="BaseResultInfoMap" parameterType="com.garbage.classify.model.dto.OrderListDto">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM tm_order
+    where
+    is_del = 0 and
+    (user_uuid =#{uuid} or work_uuid=#{uuid})
+    ORDER BY create_date DESC
+  </select>
 </mapper>

@@ -23,6 +23,10 @@ public class OrderDto implements Serializable {
     private Long addressId;
     @ApiModelProperty(name = "addressName", value = "地址", required = true)
     private String addressName;
+    @ApiModelProperty(name = "longitude",value = "经度")
+    private String longitude;
+    @ApiModelProperty(name = "latitude",value = "纬度")
+    private String latitude;
     @ApiModelProperty(name = "userUuid", value = "下单人uuid", required = true)
     private String userUuid;
     @ApiModelProperty(name = "userName", value = "下单人", required = true)
