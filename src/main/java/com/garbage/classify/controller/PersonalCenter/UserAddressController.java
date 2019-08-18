@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class UserAddressController {
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     public ResultData<Long> editUserAddress(
             @ApiParam(name = "userAddressDto",value = "用户地址维护")
-            @RequestBody UserAddressDto userAddressDto){
+            @RequestBody @Validated UserAddressDto userAddressDto){
         return new ResultData<Long>(ResultData.SUCCESS,"","用户地址维护成功！",addressService.editUserAddress(userAddressDto));
     }
 
