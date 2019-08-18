@@ -32,5 +32,7 @@ public interface TmOrderMapper {
 
     List<OrderVo> getMyOrder(OrderListDto orderListDto);
 
+    List<OrderVo> grabOrderList(String longitude,String latitude);
+
 
 }

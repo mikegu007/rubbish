@@ -396,4 +396,15 @@
     (user_uuid =#{uuid} or work_uuid=#{uuid})
     ORDER BY create_date DESC
   </select>
+
+  <select id="grabOrderList" resultMap="BaseResultInfoMap" parameterType="com.garbage.classify.model.dto.OrderListDto">
+    SELECT
+    <include refid="Base_Column_List" />
+    ,
+    round(6378.138*2*asin(sqrt(pow(sin( (latitude *pi()/180-#{latitude}*pi()/180)/2),2)+cos(latitude*pi()/180)*cos(#{latitude}*pi()/180)* pow(sin( (longitude*pi()/180-#{longitude}*pi()/180)/2),2)))*1000) AS distance
+    FROM tm_order
+    where
+    is_del = 0 and status = 2 and distance &lt; 301
+    ORDER BY distance LIMIT 20
+  </select>
 </mapper>
