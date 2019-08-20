@@ -1,5 +1,6 @@
 package com.garbage.classify.model.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(value = "订单详情Vo", description = "订单详情Vo")
 public class OrderDetailVo  implements Serializable {
     private Integer id;
     @ApiModelProperty(name = "orderNo", value = "订单号", required = true)
