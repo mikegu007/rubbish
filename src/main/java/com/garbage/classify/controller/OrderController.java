@@ -96,11 +96,11 @@ public class OrderController {
 
 
     @RequestMapping(value = "/payRollback", method = RequestMethod.POST)
-    @ApiOperation(value = "支付回调", notes = "支付回调")
+    @ApiOperation(value = "支付回调", notes = "支付回调，微信支付回调修改订单状态（待确定）")
     public ResultData payRollback(
-            @ApiParam(name = "orderNo",value = "orderNo",required = true)
+            @ApiParam(name = "orderNo",value = "订单号",required = true)
             @RequestParam(name = "orderNo") String orderNo,
-            @ApiParam(name = "payNo",value = "payNo",required = true)
+            @ApiParam(name = "payNo",value = "支付单号",required = true)
             @RequestParam(name = "payNo") String payNo) {
         orderService.payRollback(orderNo,payNo);
         return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, null);
