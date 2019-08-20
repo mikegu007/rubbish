@@ -159,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void grabOrder(String orderNo, String uuid, Long workId, String workName) {
+    public void grabOrder(String orderNo, String uuid, String workName) {
         if (ToolUtil.isNotEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
@@ -173,7 +173,6 @@ public class OrderServiceImpl implements OrderService {
         if (ToolUtil.isNotEmpty(tmOrder)&&(!tmOrder.getOrderStatus().equals(EnumOrderStatus.toDealWith.getStatusCode()))){
             tmOrder.setOrderStatus(EnumOrderStatus.toDealWith.getStatusCode());
             tmOrder.setWorkUuid(uuid);
-            tmOrder.setWorkId(workId);
             tmOrder.setWorkName(workName);
             tmOrder.setStartTime(new Date());
             tmOrderMapper.updateByPrimaryKeySelective(tmOrder);

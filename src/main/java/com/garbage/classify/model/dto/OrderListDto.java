@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel
+@ApiModel(value = "订单列表dto", description = "订单列表dto")
 public class OrderListDto extends DataTableCommonParameter implements Serializable {
 
 

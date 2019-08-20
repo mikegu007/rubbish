@@ -1,18 +1,25 @@
 package com.garbage.classify.model.Base;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /** 前台datatable传参公共类<br>
  * @Author: shenjian
  * @Desription:
  * @Date: Created in 下午5:14 2017/12/22
  * @Modified By:
  */
+@ApiModel(value = "分页公共类", description = "分页公共类")
 public class DataTableCommonParameter {
 
     /** 请求标识 */
+    @ApiModelProperty(name = "draw", value = "请求标识（如果没有可不填）", required = false)
     private int draw;
     /** 当前请求开始下标 */
+    @ApiModelProperty(name = "start", value = "当前页", required = true)
     private int start;
     /** 每页显示条数 */
+    @ApiModelProperty(name = "length", value = "每页显示条数", required = true)
     private int length;
 
     /**
