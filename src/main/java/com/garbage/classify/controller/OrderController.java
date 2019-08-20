@@ -100,7 +100,7 @@ public class OrderController {
     public ResultData payRollback(
             @ApiParam(name = "orderNo",value = "订单号",required = true)
             @RequestParam(name = "orderNo") String orderNo,
-            @ApiParam(name = "payNo",value = "支付单号",required = true)
+            @ApiParam(name = "payNo",value = "支付单号",required =false)
             @RequestParam(name = "payNo") String payNo) {
         orderService.payRollback(orderNo,payNo);
         return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, null);

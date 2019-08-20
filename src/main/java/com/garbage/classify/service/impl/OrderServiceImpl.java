@@ -185,9 +185,6 @@ public class OrderServiceImpl implements OrderService {
         if (ToolUtil.isNotEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
-        if (ToolUtil.isNotEmpty(payNo)){
-            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "支付订单号 不能为空");
-        }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
         if (ToolUtil.isNotEmpty(tmOrder)){
             tmOrder.setOrderStatus(EnumOrderStatus.toDealWith.getStatusCode());
