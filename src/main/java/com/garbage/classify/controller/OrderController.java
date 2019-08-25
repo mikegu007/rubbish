@@ -87,10 +87,8 @@ public class OrderController {
             @ApiParam(name = "orderNo",value = "orderNo",required = true)
             @RequestParam(name = "orderNo") String orderNo,
             @ApiParam(name = "uuid",value = "uuid",required = true)
-            @RequestParam(name = "uuid",required = true) String uuid,
-            @ApiParam(name = "workName",value = "workName",required = true)
-            @RequestParam(name = "workName") String workName) {
-        orderService.grabOrder( orderNo, uuid, workName);
+            @RequestParam(name = "uuid",required = true) String uuid) {
+        orderService.grabOrder( orderNo, uuid);
         return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, null);
     }
 

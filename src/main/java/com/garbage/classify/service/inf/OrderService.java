@@ -25,7 +25,7 @@ public interface OrderService {
     //完成订单
     void finishOrder(String orderNo);
     //抢单
-    void grabOrder(String orderNo,String uuid, String workName);
+    void grabOrder(String orderNo,String uuid);
 
     void payRollback(String orderNo,String payNo);
 

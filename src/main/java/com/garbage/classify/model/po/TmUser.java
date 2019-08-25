@@ -1,8 +1,12 @@
 package com.garbage.classify.model.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TmUser {
+public class TmUser implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
 
     private String uuid;

@@ -10,6 +10,7 @@ import com.garbage.classify.utils.ToolUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +70,12 @@ public class UserServiceImpl implements UserService {
         UserInfoDto userInfoDto=new UserInfoDto();
         BeanUtils.copyProperties(tmUser,userInfoDto);
         return userInfoDto;
+    }
+
+    @Override
+    @Cacheable(value = "rubbish:user:info:uuid",key = "'rubbish:user:info:uuid:'+#p0")
+    public TmUser queryUserInfoByUuid(String uuid) {
+        log.info("根据用户uuid获取用户信息 uuid[{}]",uuid);
+        return tmUserMapper.queryUserInfoByUuid(uuid);
     }
 }

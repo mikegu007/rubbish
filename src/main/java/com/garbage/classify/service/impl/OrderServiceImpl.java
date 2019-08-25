@@ -15,9 +15,11 @@ import com.garbage.classify.model.exception.ZyTechException;
 import com.garbage.classify.model.po.TmOrder;
 import com.garbage.classify.model.po.TmOrderDetail;
 import com.garbage.classify.model.po.TmRedPackage;
+import com.garbage.classify.model.po.TmUser;
 import com.garbage.classify.model.vo.OrderVo;
 import com.garbage.classify.service.inf.EnergyGenerateService;
 import com.garbage.classify.service.inf.OrderService;
+import com.garbage.classify.service.inf.UserService;
 import com.garbage.classify.utils.DateUtil;
 import com.garbage.classify.utils.ToolUtil;
 import com.github.pagehelper.PageHelper;
@@ -32,7 +34,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +63,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private EnergyGenerateService energyGenerateService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional
@@ -163,23 +170,32 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void grabOrder(String orderNo, String uuid, String workName) {
+    public void grabOrder(String orderNo, String uuid) {
+        logger.info("抢单 orderNo[{}] uuid[{}]",orderNo,uuid);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
         if (ToolUtil.isEmpty(uuid)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "抢单人uuid 不能为空");
         }
+        TmUser tmUser = userService.queryUserInfoByUuid(uuid);
+        if(ToolUtil.isEmpty(tmUser)){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED,"用户信息不存在！");
+        }
         if (tmOrderMapper.selectCountByworkId(uuid)>2){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "只允许同时进行两单");
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
-        if (ToolUtil.isNotEmpty(tmOrder)&&(!tmOrder.getOrderStatus().equals(EnumOrderStatus.toDealWith.getStatusCode()))){
-            tmOrder.setOrderStatus(EnumOrderStatus.toDealWith.getStatusCode());
+        if (ToolUtil.isNotEmpty(tmOrder)&&(tmOrder.getOrderStatus().equals(EnumOrderStatus.toDealWith.getStatusCode()))){
+            tmOrder.setOrderStatus(EnumOrderStatus.toFinish.getStatusCode());
             tmOrder.setWorkUuid(uuid);
-            tmOrder.setWorkName(workName);
+            tmOrder.setWorkName(tmUser.getUserName());
+            tmOrder.setWorkId(tmUser.getId());
             tmOrder.setStartTime(new Date());
             tmOrderMapper.updateByPrimaryKeySelective(tmOrder);
+            logger.info("订单抢单成功！ 用户uuid[{}] 订单[{}]",uuid,orderNo);
+        }else {
+            logger.info("抢单失败 订单信息[{}]",ToolUtil.isEmpty(tmOrder)?null:tmOrder.toString());
         }
     }
 
