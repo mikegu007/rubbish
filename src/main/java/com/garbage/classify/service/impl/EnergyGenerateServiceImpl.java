@@ -29,7 +29,7 @@ public class EnergyGenerateServiceImpl implements EnergyGenerateService {
     @Override
     @Transactional
     public void createOrderEnergy(String userUuid) {
-
+        insertNewEnergy(Constant.ENERGY_TYPE_ENERGY,userUuid,30);
     }
 
 

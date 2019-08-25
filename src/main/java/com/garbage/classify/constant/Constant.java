@@ -27,6 +27,10 @@ public class Constant {
     public static final int DATA_IS_DEL = 1;
     public static final int DATA_NOT_DEL = 0;
 
+    /**------------------------------------------------------------------**/
+    public static final int ENERGY_TYPE_AIR = 0;
+    public static final int ENERGY_TYPE_ENERGY = 1;
+
     /** -------------------------------日期格式化---------------------------------*/
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     public static final DateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

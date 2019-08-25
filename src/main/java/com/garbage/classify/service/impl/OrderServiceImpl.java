@@ -99,10 +99,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void cancelUserOrder(String orderNo, String remark) {
-        if (ToolUtil.isNotEmpty(orderNo)){
+        if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
-        if (ToolUtil.isNotEmpty(remark)){
+        if (ToolUtil.isEmpty(remark)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "原因 不能为空");
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
@@ -116,11 +116,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void cancelWokerOrder(String orderNo, String remark) {
-        if (ToolUtil.isNotEmpty(orderNo)){
-            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
+        if (ToolUtil.isEmpty(orderNo)){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
-        if (ToolUtil.isNotEmpty(remark)){
-            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "原因 不能为空");
+        if (ToolUtil.isEmpty(remark)){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "原因不能为空");
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
         if (ToolUtil.isNotEmpty(tmOrder)&&tmOrder.getOrderStatus().equals(EnumOrderStatus.toFinish.getStatusCode())){
@@ -137,8 +137,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void updateDealWithStatus(String orderNo) {
-        if (ToolUtil.isNotEmpty(orderNo)){
-            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
+        if (ToolUtil.isEmpty(orderNo)){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
         if (ToolUtil.isNotEmpty(tmOrder)){
@@ -150,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void finishOrder(String orderNo) {
-        if (ToolUtil.isNotEmpty(orderNo)){
+        if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
@@ -164,10 +164,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void grabOrder(String orderNo, String uuid, String workName) {
-        if (ToolUtil.isNotEmpty(orderNo)){
+        if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
-        if (ToolUtil.isNotEmpty(uuid)){
+        if (ToolUtil.isEmpty(uuid)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "抢单人uuid 不能为空");
         }
         if (tmOrderMapper.selectCountByworkId(uuid)>2){
@@ -186,8 +186,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void payRollback(String orderNo, String payNo) {
-        if (ToolUtil.isNotEmpty(orderNo)){
-            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
+        if (ToolUtil.isEmpty(orderNo)){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
         TmOrder tmOrder = tmOrderMapper.selectByOrderNo(orderNo);
         if (ToolUtil.isNotEmpty(tmOrder)){
@@ -202,8 +202,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderVo getOrderInfo(String orderNo) {
-        if (ToolUtil.isNotEmpty(orderNo)){
-            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
+        if (ToolUtil.isEmpty(orderNo)){
+            throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
         return tmOrderMapper.selectVoInfoByOrderNo(orderNo);
     }
