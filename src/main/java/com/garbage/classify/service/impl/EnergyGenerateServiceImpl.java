@@ -29,7 +29,21 @@ public class EnergyGenerateServiceImpl implements EnergyGenerateService {
     @Override
     @Transactional
     public void createOrderEnergy(String userUuid) {
-        insertNewEnergy(Constant.ENERGY_TYPE_ENERGY,userUuid,30);
+        insertNewEnergy(Constant.ENERGY_TYPE_ENERGY,userUuid,50);
+    }
+
+    /**
+     * 创建系统释放的能量
+     * @param uuid
+     */
+    @Override
+    public void createSystemEnergy(String uuid) {
+        insertNewEnergy(Constant.ENERGY_TYPE_ENERGY,uuid,30);
+    }
+
+    @Override
+    public void createGrabOrderEnergy(String uuid) {
+        insertNewEnergy(Constant.ENERGY_TYPE_ENERGY,uuid,10);
     }
 
 

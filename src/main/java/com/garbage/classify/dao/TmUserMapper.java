@@ -4,6 +4,8 @@ import com.garbage.classify.model.po.TmUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TmUserMapper {
 
@@ -36,4 +38,10 @@ public interface TmUserMapper {
      * @return
      */
     TmUser queryUserInfoByUuid(@Param("uuid") String uuid);
+
+    /**
+     * 获取当前所有有效的用户信息
+     * @return
+     */
+    List<TmUser> queryAllUserInfo();
 }

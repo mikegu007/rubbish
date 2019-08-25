@@ -3,6 +3,8 @@ package com.garbage.classify.service.inf;
 import com.garbage.classify.model.dto.UserInfo.UserInfoDto;
 import com.garbage.classify.model.po.TmUser;
 
+import java.util.List;
+
 public interface UserService {
     /**
      * 用户信息新增和维护
@@ -24,4 +26,10 @@ public interface UserService {
      * @return
      */
     TmUser queryUserInfoByUuid(String uuid);
+
+    /**
+     * 获取所有用户信息
+     * @return
+     */
+    List<TmUser> queryAllUserInfo();
 }

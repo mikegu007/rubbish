@@ -155,4 +155,12 @@
     WHERE a.`is_del` = 0
     AND a.`uuid` = #{uuid}
   </select>
+
+  <select id="queryAllUserInfo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    tm_user a
+    WHERE a.`is_del` = 0
+  </select>
 </mapper>

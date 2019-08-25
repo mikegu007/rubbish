@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.xa.XAException;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -77,5 +78,14 @@ public class UserServiceImpl implements UserService {
     public TmUser queryUserInfoByUuid(String uuid) {
         log.info("根据用户uuid获取用户信息 uuid[{}]",uuid);
         return tmUserMapper.queryUserInfoByUuid(uuid);
+    }
+
+
+    @Override
+    @Cacheable(value = "rubbish:user:info:list",key = "'rubbish:user:info:list'")
+    public List<TmUser> queryAllUserInfo() {
+        log.info("获取当前所有有效的用户信息");
+        // TODO: 2019/8/25 新增和编辑删除用户信息时需要清除该缓存
+        return tmUserMapper.queryAllUserInfo();
     }
 }

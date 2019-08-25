@@ -194,6 +194,8 @@ public class OrderServiceImpl implements OrderService {
             tmOrder.setStartTime(new Date());
             tmOrderMapper.updateByPrimaryKeySelective(tmOrder);
             logger.info("订单抢单成功！ 用户uuid[{}] 订单[{}]",uuid,orderNo);
+            // 抢单生成能量
+            energyGenerateService.createGrabOrderEnergy(uuid);
         }else {
             logger.info("抢单失败 订单信息[{}]",ToolUtil.isEmpty(tmOrder)?null:tmOrder.toString());
         }
@@ -235,7 +237,8 @@ public class OrderServiceImpl implements OrderService {
         orderListDto.validateAndInit();
         int count = tmOrderMapper.getCountMyOrder(orderListDto);
         PageHelper.startPage(orderListDto.getStart(), orderListDto.getLength());
-        pageBean.setData(tmOrderMapper.getMyOrder(orderListDto));
+        List<OrderVo> myOrder = tmOrderMapper.getMyOrder(orderListDto);
+        pageBean.setData(myOrder);
         pageBean.setCount(count);
         return pageBean;
     }
