@@ -24,6 +24,9 @@ public class Constant {
     public static final Boolean IS_DEL = true;
     public static final Boolean NOT_DEL = false;
 
+    public static final int DATA_IS_DEL = 1;
+    public static final int DATA_NOT_DEL = 0;
+
     /** -------------------------------日期格式化---------------------------------*/
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     public static final DateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

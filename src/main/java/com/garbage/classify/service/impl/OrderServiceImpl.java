@@ -16,6 +16,7 @@ import com.garbage.classify.model.po.TmOrder;
 import com.garbage.classify.model.po.TmOrderDetail;
 import com.garbage.classify.model.po.TmRedPackage;
 import com.garbage.classify.model.vo.OrderVo;
+import com.garbage.classify.service.inf.EnergyGenerateService;
 import com.garbage.classify.service.inf.OrderService;
 import com.garbage.classify.utils.DateUtil;
 import com.garbage.classify.utils.ToolUtil;
@@ -55,6 +56,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private TmRedPackageMapper tmRedPackageMapper;
+
+    @Autowired
+    private EnergyGenerateService energyGenerateService;
 
     @Override
     @Transactional
@@ -191,6 +195,8 @@ public class OrderServiceImpl implements OrderService {
             tmOrder.setPayOrder(payNo);
             tmOrder.setPayTime(new Date());
             tmOrderMapper.updateByPrimaryKeySelective(tmOrder);
+            // 生成绿色能量
+            energyGenerateService.createOrderEnergy(tmOrder.getUserUuid());
         }
     }
 
