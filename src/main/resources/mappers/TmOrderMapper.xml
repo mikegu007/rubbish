@@ -78,7 +78,7 @@
     select
     <include refid="Base_Column_List" />
     from tm_order
-    where orderNo = #{orderNo,jdbcType=VARCHAR}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
   </select>
 
   <insert id="insert" parameterType="com.garbage.classify.model.po.TmOrder">
