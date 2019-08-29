@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 绿色能量
@@ -44,6 +45,30 @@ public class EnergyGenerateServiceImpl implements EnergyGenerateService {
     @Override
     public void createGrabOrderEnergy(String uuid) {
         insertNewEnergy(Constant.ENERGY_TYPE_ENERGY,uuid,10);
+    }
+
+    /**
+     * 获取已经过期的能量信息
+     * @return
+     */
+    @Override
+    public List<TtEnergyGenerate> queryExpireEnergy() {
+        log.info("获取所有已经过期的能量列表信息！");
+        return ttEnergyGenerateMapper.queryExpireEnergy();
+    }
+
+    /**
+     * 删除已经过期的能量
+     * @param id
+     */
+    @Override
+    public void deleteExpireEnergy(Long id) {
+        log.info("删除已经过期的能量信息 ID[{}]",id);
+        TtEnergyGenerate ttEnergyGenerate=new TtEnergyGenerate();
+        ttEnergyGenerate.setId(id);
+        ttEnergyGenerate.setExpireTime(new Date());
+        ttEnergyGenerate.setIsDel(Constant.DATA_IS_DEL);
+        ttEnergyGenerateMapper.updateBySelective(ttEnergyGenerate);
     }
 
 

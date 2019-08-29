@@ -103,4 +103,28 @@
     AND a.`expire_time` &lt; NOW()
     AND a.`ID`=#{id}
   </select>
+
+  <select id="queryExpireEnergy" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    `tt_energy_generate` a
+    WHERE a.`is_del` = 0
+    AND a.`get_time` IS NULL
+    AND TYPE = 1
+    AND DATE_ADD(a.`create_time`, INTERVAL 1 DAY) &lt; NOW() ;
+  </select>
+
+  <update id="updateBySelective" parameterType="com.garbage.classify.model.po.TtEnergyGenerate">
+    update tt_energy_generate
+    <set>
+      <if test="isDel!=null">
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="expireTime!=null">
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id=#{id,jdbcType=BIGINT}
+  </update>
 </mapper>

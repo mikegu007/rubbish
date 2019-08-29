@@ -25,4 +25,12 @@ public interface TtEnergyGenerateMapper {
      * @return
      */
     TtEnergyGenerate selectById(@Param("id") Long energyId);
+
+    /**
+     * 获取所有已经过期的能量
+     * @return
+     */
+    List<TtEnergyGenerate> queryExpireEnergy();
+
+    Long updateBySelective(TtEnergyGenerate ttEnergyGenerate);
 }
