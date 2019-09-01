@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
         // 获取请求
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 生成预支付订单
-        String unifiedOrder = createWxOrderService.createUnifiedOrder(request, String.valueOf(payPrice.floatValue() * 100), tmUser.getOpenId(), tmOrder.getOrderNo());
+        String unifiedOrder = createWxOrderService.createUnifiedOrder(request, String.valueOf(payPrice.multiply(new BigDecimal("100")).intValue()), tmUser.getOpenId(), tmOrder.getOrderNo());
         logger.info("下单预订单号 [{}]",unifiedOrder);
         tmOrder.setTradeNo(unifiedOrder);
         tmOrderMapper.insertSelective(tmOrder);
