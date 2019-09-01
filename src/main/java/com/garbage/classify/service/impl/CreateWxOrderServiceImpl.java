@@ -111,7 +111,7 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
             //发送请求(POST)(获得数据包ID)(这有个注意的地方 如果不转码成ISO8859-1则会告诉你body不是UTF8编码 就算你改成UTF8编码也一样不好使 所以修改成ISO8859-1)
             Map<String, String> map = XmlUtils.doXMLParse(getRemotePortData(URL, new String(paramBuffer.toString().getBytes(), "ISO8859-1")));
             //应该创建 支付表数据
-            if (map != null) {
+            if (ToolUtil.isNotEmpty(map)) {
                 log.info("微信 统一下单 接口调用成功 并且新增支付信息成功[{}]",map);
                 return map.get("prepay_id");
             }
