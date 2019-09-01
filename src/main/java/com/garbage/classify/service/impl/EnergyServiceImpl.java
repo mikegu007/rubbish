@@ -58,6 +58,7 @@ public class EnergyServiceImpl implements EnergyService {
      */
     @Override
     public void drawEnergy(DrawEnergyDto drawEnergyDto) {
+        log.info("用户领取能量 [{}]",drawEnergyDto);
         String uuid = drawEnergyDto.getUuid();
         Long energyId = drawEnergyDto.getEnergyId();
         // 校验用户信息

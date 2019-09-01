@@ -2,6 +2,7 @@ package com.garbage.classify.service.inf;
 
 import com.garbage.classify.model.dto.UserAddress.UserAddressDto;
 import com.garbage.classify.model.vo.UserAddressVo;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
