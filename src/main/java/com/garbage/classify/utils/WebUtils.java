@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class WebUtils {
 
-    @Value("${rubbish.wx.ready.pay.url}")
-    private String wxReadyPayUrl;
+
+    private static final String wxReadyPayUrl="https://messagecome.com";
 
     /**
      * @Title: getIpAddress
@@ -38,7 +38,7 @@ public class WebUtils {
      * 获取项目域名
      * @return
      */
-    public String getBasePath() {
+    public static String getBasePath() {
         return wxReadyPayUrl;
     }
 }
