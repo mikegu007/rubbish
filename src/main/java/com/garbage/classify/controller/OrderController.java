@@ -6,6 +6,7 @@ import com.garbage.classify.model.Base.ResultData;
 import com.garbage.classify.model.dto.OrderDto;
 import com.garbage.classify.model.dto.OrderListDto;
 import com.garbage.classify.model.vo.OrderVo;
+import com.garbage.classify.model.vo.PayOrderVo;
 import com.garbage.classify.service.inf.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,11 +32,10 @@ public class OrderController {
 
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     @ApiOperation(value = "用户下订单", notes = "用户下订单")
-    public ResultData addOrder(
+    public ResultData<PayOrderVo> addOrder(
             @ApiParam(name = "orderDto", value = "订单保存对象", required = true)
             @RequestBody OrderDto orderDto) {
-        String payOrderNo = orderService.addOrder(orderDto);
-        return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, payOrderNo);
+        return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, orderService.addOrder(orderDto));
     }
 
 

@@ -18,6 +18,7 @@ import com.garbage.classify.model.po.TmOrderDetail;
 import com.garbage.classify.model.po.TmRedPackage;
 import com.garbage.classify.model.po.TmUser;
 import com.garbage.classify.model.vo.OrderVo;
+import com.garbage.classify.model.vo.PayOrderVo;
 import com.garbage.classify.service.inf.CreateWxOrderService;
 import com.garbage.classify.service.inf.EnergyGenerateService;
 import com.garbage.classify.service.inf.OrderService;
@@ -77,8 +78,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public String addOrder(OrderDto orderDto) {
+    public PayOrderVo addOrder(OrderDto orderDto) {
         logger.info("下单 [{}]",orderDto);
+        PayOrderVo result = new PayOrderVo();
         orderDto.validateAndInit();
         // 获取下单人信息
         TmUser tmUser = userService.queryUserInfoByUuid(orderDto.getUserUuid());
@@ -122,7 +124,9 @@ public class OrderServiceImpl implements OrderService {
         logger.info("下单预订单号 [{}]",unifiedOrder);
         tmOrder.setTradeNo(unifiedOrder);
         tmOrderMapper.insertSelective(tmOrder);
-        return unifiedOrder;
+        result.setPreOrderNo(unifiedOrder);
+        result.setOrderNo(tmOrder.getOrderNo());
+        return result;
     }
 
     @Override

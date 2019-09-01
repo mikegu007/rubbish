@@ -5,6 +5,7 @@ import com.garbage.classify.model.Base.PageBean;
 import com.garbage.classify.model.dto.OrderDto;
 import com.garbage.classify.model.dto.OrderListDto;
 import com.garbage.classify.model.vo.OrderVo;
+import com.garbage.classify.model.vo.PayOrderVo;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    String addOrder(OrderDto orderDto);
+    PayOrderVo addOrder(OrderDto orderDto);
 
     void cancelUserOrder(String orderNo,String remark);
 
