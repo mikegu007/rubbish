@@ -113,6 +113,9 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
             //应该创建 支付表数据
             if (ToolUtil.isNotEmpty(map)) {
                 log.info("微信 统一下单 接口调用成功 并且新增支付信息成功[{}]",map);
+                if (ToolUtil.isEmpty(map.get("prepay_id"))){
+                    throw new ZyTechException(ErrConstant.BUSI_RETURN_ERR,map.get("err_code_des"));
+                }
                 return map.get("prepay_id");
             }
         } catch (UnsupportedEncodingException e) {

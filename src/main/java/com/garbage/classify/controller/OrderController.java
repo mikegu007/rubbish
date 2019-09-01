@@ -97,7 +97,7 @@ public class OrderController {
     @ApiOperation(value = "支付回调", notes = "支付回调，微信支付回调修改订单状态（待确定）")
     public ResultData payRollback(
             @ApiParam(name = "orderNo",value = "订单号",required = true)
-            @RequestParam(name = "orderNo") String orderNo,
+            @RequestParam(name  = "orderNo") String orderNo,
             @ApiParam(name = "payNo",value = "支付单号",required =false)
             @RequestParam(name = "payNo") String payNo) {
         orderService.payRollback(orderNo,payNo);
