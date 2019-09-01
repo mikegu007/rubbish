@@ -112,7 +112,7 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
             Map<String, String> map = XmlUtils.doXMLParse(getRemotePortData(URL, new String(paramBuffer.toString().getBytes(), "ISO8859-1")));
             //应该创建 支付表数据
             if (map != null) {
-                log.info("微信 统一下单 接口调用成功 并且新增支付信息成功");
+                log.info("微信 统一下单 接口调用成功 并且新增支付信息成功[{}]",map);
                 return map.get("prepay_id");
             }
         } catch (UnsupportedEncodingException e) {
