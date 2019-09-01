@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
         // 获取请求
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 生成预支付订单
-        createWxOrderService.createUnifiedOrder(request,payPrice,tmUser.getOpenId(),tmOrder.getOrderNo());
+        return createWxOrderService.createUnifiedOrder(request,String.valueOf(payPrice.floatValue()*100),tmUser.getOpenId(),tmOrder.getOrderNo());
     }
 
     @Override
