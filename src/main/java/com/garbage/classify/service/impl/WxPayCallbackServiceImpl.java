@@ -1,7 +1,6 @@
 package com.garbage.classify.service.impl;
 
 import com.garbage.classify.dao.TmOrderMapper;
-import com.garbage.classify.model.dto.WechatAppletGolfPayInfo;
 import com.garbage.classify.model.enums.EnumOrderStatus;
 import com.garbage.classify.model.po.TmOrder;
 import com.garbage.classify.service.inf.WxPayCallbackService;

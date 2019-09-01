@@ -28,7 +28,7 @@ public class WxRollyBackController {
 
     @RequestMapping(value = "/payCallback", method = RequestMethod.POST)
     @ApiOperation(value = "微信支付回调接口", notes = "微信支付回调接口")
-    public ResultData addOrder(
+    public ResultData payCallback(
             HttpServletRequest request, HttpServletResponse response) {
         wxPayCallbackService.payCallback(request,response);
         return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, null);
