@@ -32,6 +32,9 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
     @Value("${rubbish.wx.mch.id}")
     private String MCHID;
 
+    @Value("${rubbish.wx.pay.key}")
+    private String KEY;
+
 
     public String createUnifiedOrder(HttpServletRequest request) {
         log.info("微信 统一下单 接口调用");
@@ -75,7 +78,7 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
         //调用逻辑传入参数按照字段名的 ASCII 码从小到大排序（字典序）
         String stringA = formatUrlMap(paraMap, false, false);
         //第二步，在stringA最后拼接上key得到stringSignTemp字符串，并对stringSignTemp进行MD5运算，再将得到的字符串所有字符转换为大写，得到sign值signValue。(签名)
-        String sign = MD5Util.MD5(stringA+"&key="+"64e711db31d37ebb45acc7290a0eac33").toUpperCase();
+        String sign = MD5Util.MD5(stringA+"&key="+KEY).toUpperCase();
         //将参数 编写XML格式
         StringBuffer paramBuffer = new StringBuffer();
         paramBuffer.append("<xml>");
