@@ -7,6 +7,7 @@ import com.garbage.classify.dao.TmOrderDetailMapper;
 import com.garbage.classify.dao.TmOrderMapper;
 import com.garbage.classify.dao.TmRedPackageMapper;
 import com.garbage.classify.model.Base.PageBean;
+import com.garbage.classify.model.dto.OrderDetailDto;
 import com.garbage.classify.model.dto.OrderDto;
 import com.garbage.classify.model.dto.OrderListDto;
 import com.garbage.classify.model.enums.EnumClassifyType;
@@ -77,6 +78,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public String addOrder(OrderDto orderDto) {
+        logger.info("下单 [{}]",orderDto);
         orderDto.validateAndInit();
         // 获取下单人信息
         TmUser tmUser = userService.queryUserInfoByUuid(orderDto.getUserUuid());
@@ -88,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderDto, tmOrder);
         tmOrder.setOrderNo(this.getOrderNo("oder"));
         tmOrder.setOrderStatus(EnumOrderStatus.toPay.getStatusCode());
-        orderDto.getOrderDetailDtos().forEach(that ->{
+        for (OrderDetailDto that :orderDto.getOrderDetailDtos()){
             TmOrderDetail tmOrderDetail = new TmOrderDetail();
             BeanUtils.copyProperties(that, tmOrderDetail);
             tmOrderDetail.setOrderNo(tmOrder.getOrderNo());
@@ -108,9 +110,10 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
             calPrice.subtract(discountPrice);
-            payPrice.add(calPrice);
+            payPrice = payPrice.add(calPrice);
             tmOrderDetailMapper.insertSelective(tmOrderDetail);
-        });
+        }
+
         tmOrder.setPayPrice(payPrice);
         tmOrderMapper.insertSelective(tmOrder);
         // 获取请求
@@ -122,6 +125,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void cancelUserOrder(String orderNo, String remark) {
+        logger.info("取消订单 [{}],[{}]",orderNo,remark);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
@@ -139,6 +143,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void cancelWokerOrder(String orderNo, String remark) {
+        logger.info("工人取消订单 [{}],[{}]",orderNo,remark);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
@@ -160,6 +165,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void updateDealWithStatus(String orderNo) {
+        logger.info("开始处理订单 [{}]",orderNo);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
@@ -173,6 +179,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void finishOrder(String orderNo) {
+        logger.info("完成订单 [{}]",orderNo);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号 不能为空");
         }
@@ -220,6 +227,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void payRollback(String orderNo, String payNo) {
+        logger.info("支付成功回调 orderNo[{}] payNo[{}]",orderNo,payNo);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
@@ -236,6 +244,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderVo getOrderInfo(String orderNo) {
+        logger.info("根据订单号获取详情 orderNo[{}]",orderNo);
         if (ToolUtil.isEmpty(orderNo)){
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "订单号不能为空");
         }
@@ -244,11 +253,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderVo> grabOrderList(String longitude,String latitude) {
+        logger.info("获取抢单列表 longitude[{}],latitude[{}]",longitude,latitude);
         return tmOrderMapper.grabOrderList(longitude, latitude);
     }
 
     @Override
     public PageBean<OrderVo> myOrderList(OrderListDto orderListDto) {
+        logger.info("我的订单列表 [{}]",orderListDto);
         PageBean<OrderVo> pageBean = new PageBean<>();
         orderListDto.validateAndInit();
         int count = tmOrderMapper.getCountMyOrder(orderListDto);

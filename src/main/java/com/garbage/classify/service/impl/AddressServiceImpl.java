@@ -66,6 +66,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<UserAddressVo> getAddressList(String uuid) {
+        logger.info("获取地址列表 [{}]",uuid);
         if (ToolUtil.isEmpty(uuid)) {
             throw new ZyTechException(ErrConstant.INVALID_DATAFILED, "uuid 不能为空");
         }
@@ -108,6 +109,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Cacheable(value = "rubbish:user:address:list:uuid",key = "'rubbish:user:address:list:uuid:'+#p0")
     public List<UserAddressDto> getUserAddressByUuid(String uuid) {
+        logger.info("获取地址列表(缓存) [{}]",uuid);
         // 获取用户信息
         TmUser tmUser = tmUserMapper.queryUserInfoByUuid(uuid);
         if(ToolUtil.isEmpty(tmUser)){
@@ -147,6 +149,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void delUserAddressById(Long id) {
+        logger.info("删除地址 [{}]",id);
         // 查询用户地址
         TmUserAddress tmUserAddress = tmUserAddressMapper.selectByPrimaryKey(id);
         if(tmUserAddress!=null){
