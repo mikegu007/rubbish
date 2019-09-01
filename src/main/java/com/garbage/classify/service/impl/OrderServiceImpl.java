@@ -7,6 +7,7 @@ import com.garbage.classify.dao.TmOrderDetailMapper;
 import com.garbage.classify.dao.TmOrderMapper;
 import com.garbage.classify.dao.TmRedPackageMapper;
 import com.garbage.classify.model.Base.PageBean;
+import com.garbage.classify.model.dto.OrderDetailDto;
 import com.garbage.classify.model.dto.OrderDto;
 import com.garbage.classify.model.dto.OrderListDto;
 import com.garbage.classify.model.enums.EnumClassifyType;
@@ -89,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderDto, tmOrder);
         tmOrder.setOrderNo(this.getOrderNo("oder"));
         tmOrder.setOrderStatus(EnumOrderStatus.toPay.getStatusCode());
-        orderDto.getOrderDetailDtos().forEach(that ->{
+        for (OrderDetailDto that :orderDto.getOrderDetailDtos()){
             TmOrderDetail tmOrderDetail = new TmOrderDetail();
             BeanUtils.copyProperties(that, tmOrderDetail);
             tmOrderDetail.setOrderNo(tmOrder.getOrderNo());
@@ -109,9 +110,10 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
             calPrice.subtract(discountPrice);
-            payPrice.add(calPrice);
+            payPrice = payPrice.add(calPrice);
             tmOrderDetailMapper.insertSelective(tmOrderDetail);
-        });
+        }
+
         tmOrder.setPayPrice(payPrice);
         tmOrderMapper.insertSelective(tmOrder);
         // 获取请求
