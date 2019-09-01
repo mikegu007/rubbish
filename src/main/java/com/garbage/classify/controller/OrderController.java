@@ -34,8 +34,8 @@ public class OrderController {
     public ResultData addOrder(
             @ApiParam(name = "orderDto", value = "订单保存对象", required = true)
             @RequestBody OrderDto orderDto) {
-        orderService.addOrder(orderDto);
-        return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, null);
+        String payOrderNo = orderService.addOrder(orderDto);
+        return new ResultData(ResultData.SUCCESS, Constant.SUCCESS, Constant.SUCCESS, payOrderNo);
     }
 
 

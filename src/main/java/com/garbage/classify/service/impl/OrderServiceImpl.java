@@ -17,6 +17,7 @@ import com.garbage.classify.model.po.TmOrderDetail;
 import com.garbage.classify.model.po.TmRedPackage;
 import com.garbage.classify.model.po.TmUser;
 import com.garbage.classify.model.vo.OrderVo;
+import com.garbage.classify.service.inf.CreateWxOrderService;
 import com.garbage.classify.service.inf.EnergyGenerateService;
 import com.garbage.classify.service.inf.OrderService;
 import com.garbage.classify.service.inf.UserService;
@@ -32,8 +33,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
@@ -67,10 +71,18 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CreateWxOrderService createWxOrderService;
+
     @Override
     @Transactional
-    public void addOrder(OrderDto orderDto) {
+    public String addOrder(OrderDto orderDto) {
         orderDto.validateAndInit();
+        // 获取下单人信息
+        TmUser tmUser = userService.queryUserInfoByUuid(orderDto.getUserUuid());
+        if(ToolUtil.isEmpty(tmUser)){
+            throw new ZyTechException(ErrConstant.BUSI_RETURN_ERR,"用户信息获取失败！");
+        }
         BigDecimal payPrice = new BigDecimal(0);
         TmOrder tmOrder = new TmOrder();
         BeanUtils.copyProperties(orderDto, tmOrder);
@@ -101,6 +113,10 @@ public class OrderServiceImpl implements OrderService {
         });
         tmOrder.setPayPrice(payPrice);
         tmOrderMapper.insertSelective(tmOrder);
+        // 获取请求
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        // 生成预支付订单
+        createWxOrderService.createUnifiedOrder(request,payPrice,tmUser.getOpenId(),tmOrder.getOrderNo());
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    void addOrder(OrderDto orderDto);
+    String addOrder(OrderDto orderDto);
 
     void cancelUserOrder(String orderNo,String remark);
 

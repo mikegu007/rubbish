@@ -59,4 +59,5 @@ public class TmOrder {
 
     private Boolean isDel;
 
+    private String tradeNo;
 }

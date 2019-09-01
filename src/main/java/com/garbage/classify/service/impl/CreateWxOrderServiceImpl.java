@@ -1,12 +1,18 @@
 package com.garbage.classify.service.impl;
 
+import com.garbage.classify.constant.ErrConstant;
+import com.garbage.classify.dao.TmOrderMapper;
 import com.garbage.classify.model.dto.WechatAppletGolfPayInfo;
+import com.garbage.classify.model.exception.ZyTechException;
+import com.garbage.classify.model.po.TmOrder;
 import com.garbage.classify.service.inf.CreateWxOrderService;
 import com.garbage.classify.utils.MD5Util;
+import com.garbage.classify.utils.ToolUtil;
 import com.garbage.classify.utils.WebUtils;
 import com.garbage.classify.utils.XmlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -26,6 +32,11 @@ import java.util.*;
 @Slf4j
 public class CreateWxOrderServiceImpl implements CreateWxOrderService {
 
+    /**
+     * 生成预支付接口地址
+     */
+    private static final String URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
     @Value("${rubbish.wx.apply.id}")
     private String APPLYID;
 
@@ -35,14 +46,12 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
     @Value("${rubbish.wx.pay.key}")
     private String KEY;
 
+    @Autowired
+    private TmOrderMapper tmOrderMapper;
 
-    public String createUnifiedOrder(HttpServletRequest request) {
-        log.info("微信 统一下单 接口调用");
-
-        //接受参数(金额)
-        String amount = request.getParameter("amount");
-        //接受参数(openid)
-        String openid = request.getParameter("openid");
+    @Override
+    public String createUnifiedOrder(HttpServletRequest request,String amount,String openid,String orderNo) {
+        log.info("微信 统一下单 接口调用 金额[{}] openId[{}] orderNo[{}]",amount,openid,orderNo);
         //接口调用总金额单位为分换算一下(测试金额改成1,单位为分则是0.01,根据自己业务场景判断是转换成float类型还是int类型)
         String amountFen = "1";
         //创建hashmap(用户获得签名)
@@ -51,10 +60,6 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
         String body = "订单支付成功!";
         //设置随机字符串
         String nonceStr = UUID.randomUUID().toString().replaceAll("-", "");
-        //设置商户订单号
-        String outTradeNo = UUID.randomUUID().toString().replaceAll("-", "");
-
-
         //设置请求参数(小程序ID)
         paraMap.put("appid", APPLYID);
         //设置请求参数(商户号)
@@ -64,7 +69,7 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
         //设置请求参数(商品描述)
         paraMap.put("body", body);
         //设置请求参数(商户订单号)
-        paraMap.put("out_trade_no", outTradeNo);
+        paraMap.put("out_trade_no", orderNo);
         //设置请求参数(总金额)
         paraMap.put("total_fee", amountFen);
         //设置请求参数(终端IP)
@@ -94,57 +99,14 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
         paramBuffer.append("<trade_type>"+paraMap.get("trade_type")+"</trade_type>");
         paramBuffer.append("<openid>"+paraMap.get("openid")+"</openid>");
         paramBuffer.append("</xml>");
-
         try {
             //发送请求(POST)(获得数据包ID)(这有个注意的地方 如果不转码成ISO8859-1则会告诉你body不是UTF8编码 就算你改成UTF8编码也一样不好使 所以修改成ISO8859-1)
             Map<String,String> map = XmlUtils.doXMLParse(getRemotePortData(URL, new String(paramBuffer.toString().getBytes(), "ISO8859-1")));
             //应该创建 支付表数据
             if(map!=null){
-                //清空
-                criteria.clear();
-                //设置openId条件
-                criteria.put("openId", openid);
-                //获取数据
-                List<WechatAppletGolfPayInfo> payInfoList = appletGolfPayInfoMapper.selectByExample(criteria);
-                //如果等于空 则证明是第一次支付
-                if(CollectionUtils.isEmpty(payInfoList)){
-                    //创建支付信息对象
-                    WechatAppletGolfPayInfo appletGolfPayInfo = new  WechatAppletGolfPayInfo();
-                    //设置主键
-                    appletGolfPayInfo.setPayId(outTradeNo);
-                    //设置openid
-                    appletGolfPayInfo.setOpenId(openid);
-                    //设置金额
-                    appletGolfPayInfo.setAmount(Long.valueOf(amount));
-                    //设置支付状态
-                    appletGolfPayInfo.setPayStatus("0");
-                    //插入Dao
-                    int sqlRow = appletGolfPayInfoMapper.insert(appletGolfPayInfo);
-                    //判断
-                    if(sqlRow == 1){
-                        log.info("微信 统一下单 接口调用成功 并且新增支付信息成功");
-                        return map.get("prepay_id");
-                    }
-                }else{
-                    //判断 是否等于一条
-                    if(payInfoList.size() == 1){
-                        //获取 需要更新数据
-                        WechatAppletGolfPayInfo wechatAppletGolfPayInfo = payInfoList.get(0);
-                        //更新 该条的 金额
-                        wechatAppletGolfPayInfo.setAmount(Long.valueOf(amount));
-                        //更新Dao
-                        int sqlRow = appletGolfPayInfoMapper.updateByPrimaryKey(wechatAppletGolfPayInfo);
-                        //判断
-                        if(sqlRow == 1){
-                            log.info("微信 统一下单 接口调用成功 修改支付信息成功");
-                            return map.get("prepay_id");
-                        }
-                    }
-                }
+                log.info("微信 统一下单 接口调用成功 并且新增支付信息成功");
+                return map.get("prepay_id");
             }
-            //将 数据包ID 返回
-
-            System.out.println(map);
         } catch (UnsupportedEncodingException e) {
             log.info("微信 统一下单 异常："+e.getMessage());
             e.printStackTrace();

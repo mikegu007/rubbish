@@ -27,6 +27,7 @@
     <result column="is_del" jdbcType="BIT" property="isDel" />
     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="tradeNo"/>
   </resultMap>
 
   <resultMap id="BaseResultInfoMap" type="com.garbage.classify.model.vo.OrderVo">
@@ -58,7 +59,7 @@
   <sql id="Base_Column_List">
     id, order_no, address_id, address_name, user_id, user_uuid, user_name, work_id, work_uuid, 
     work_name, order_status, mobile, pay_time, pay_order, pay_price, start_time, finish_time, 
-    remark, create_by, create_date, update_by, update_date, is_del,latitude,longitude
+    remark, create_by, create_date, update_by, update_date, is_del,latitude,longitude,out_trade_no
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
