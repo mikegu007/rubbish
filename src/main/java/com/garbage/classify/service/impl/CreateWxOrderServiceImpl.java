@@ -188,7 +188,7 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
      * 返回类型: String
      */
     private String getRemotePortData(String urls, String param) {
-        log.info("港距查询抓取数据----开始抓取外网港距数据");
+        log.info("http請求[{}],[{}]",urls,param);
         try {
             URL url = new URL(urls);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -197,11 +197,6 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
             // 设置读取超时时间
             conn.setReadTimeout(30000);
             conn.setRequestMethod("POST");
-            if (StringUtils.isNotBlank(param)) {
-                conn.setRequestProperty("Origin", "https://sirius.searates.com");// 主要参数
-                conn.setRequestProperty("Referer", "https://sirius.searates.com/cn/port?A=ChIJP1j2OhRahjURNsllbOuKc3Y&D=567&G=16959&shipment=1&container=20st&weight=1&product=0&request=&weightcargo=1&");
-                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");// 主要参数
-            }
             // 需要输出
             conn.setDoInput(true);
             // 需要输入
@@ -231,12 +226,12 @@ public class CreateWxOrderServiceImpl implements CreateWxOrderService {
             return sb.toString();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            log.info("港距查询抓取数据----抓取外网港距数据发生异常：" + e.getMessage());
+            log.info("数据发生异常：" + e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            log.info("港距查询抓取数据----抓取外网港距数据发生异常：" + e.getMessage());
+            log.info("数据发生异常：" + e.getMessage());
         }
-        log.info("港距查询抓取数据----抓取外网港距数据失败, 返回空字符串");
+        log.info("数据失败, 返回空字符串");
         return "";
     }
 
