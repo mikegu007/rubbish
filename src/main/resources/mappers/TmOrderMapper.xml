@@ -178,6 +178,9 @@
       <if test="latitude != null">
         latitude,
       </if>
+      <if test="tradeNo !=null">
+        out_trade_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -254,6 +257,9 @@
       </if>
       <if test="latitude != null">
         #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo !=null">
+        #{tradeNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
