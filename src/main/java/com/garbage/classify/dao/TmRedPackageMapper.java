@@ -4,6 +4,8 @@ import com.garbage.classify.model.po.TmRedPackage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TmRedPackageMapper {
     int insert(TmRedPackage record);
@@ -17,4 +19,6 @@ public interface TmRedPackageMapper {
     int updateByPrimaryKey(TmRedPackage record);
 
     Integer selectRedPacketCountByUuid(@Param("uuid") String uuid);
+
+    List<TmRedPackage> queryRedPacketListByUuid(@Param("uuid") String userUuid);
 }

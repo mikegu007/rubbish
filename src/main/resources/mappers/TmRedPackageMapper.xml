@@ -148,6 +148,10 @@
   </update>
 
   <select id="selectRedPacketCountByUuid" resultType="Integer">
+    SELECT COUNT(1) FROM `tm_red_package` a WHERE a.`is_del`=0 AND a.`expire_time` &gt; NOW() AND a.`user_uuid`=#{uuid}
+  </select>
+
+  <select id="queryRedPacketListByUuid" resultMap="BaseResultMap">
     SELECT COUNT(1) FROM `tm_red_package` a WHERE a.`is_del`=0 AND a.`expire_time` &gt; NOW()
   </select>
 </mapper>
