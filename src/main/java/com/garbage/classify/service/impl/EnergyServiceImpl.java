@@ -37,7 +37,7 @@ public class EnergyServiceImpl implements EnergyService {
      * @return
      */
     @Override
-    @Cacheable(value = "rubbish:user:energy:list:uuid",key = "'rubbish:user:energy:list:uuid:'+#p0")
+//    @Cacheable(value = "rubbish:user:energy:list:uuid",key = "'rubbish:user:energy:list:uuid:'+#p0")
     public List<EnergyListVo> getEnergyListByUuid(String uuid) {
         log.info("获取用户可领取能量列表 用户uuid[{}]",uuid);
         List<TtEnergyGenerate> ttEnergyGenerates = ttEnergyGenerateMapper.getEnergyListByUuid(uuid, Constant.ENERGY_TYPE_ENERGY);

@@ -23,7 +23,6 @@ import com.garbage.classify.service.inf.CreateWxOrderService;
 import com.garbage.classify.service.inf.EnergyGenerateService;
 import com.garbage.classify.service.inf.OrderService;
 import com.garbage.classify.service.inf.UserService;
-import com.garbage.classify.utils.DateUtil;
 import com.garbage.classify.utils.ToolUtil;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -31,20 +30,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: Mike
@@ -55,8 +50,8 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(Constant.LOGGER);
 
-    @Resource(name = "authCenterRedisTemplate")
-    private RedisTemplate redisTemplate;
+//    @Resource(name = "authCenterRedisTemplate")
+//    private RedisTemplate redisTemplate;
 
     @Autowired
     private TmOrderMapper tmOrderMapper;
@@ -284,21 +279,23 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public String getOrderNo(String orgCode) {
-        String contractIdKey = orgCode + DateFormatUtils.format(new Date(), "yyyyMMdd");
-        long todayNum = 0;
+        String contractIdKey = orgCode + DateFormatUtils.format(new Date(), "yyyyMMdd")+ UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
+        String substring = uuid.toString().substring(0, 10);
+//        long todayNum = 0;
         // 取redis缓存
-        RedisAtomicLong entityIdCounter = new RedisAtomicLong(contractIdKey, redisTemplate.getConnectionFactory());
-        todayNum = entityIdCounter.getAndIncrement();
-        long nextNum = todayNum + 1;
+//        RedisAtomicLong entityIdCounter = new RedisAtomicLong(contractIdKey, redisTemplate.getConnectionFactory());
+//        todayNum = entityIdCounter.getAndIncrement();
+//        long nextNum = todayNum + 1;
         // 设置redis缓存
         // 拼接后缀值
-        String suffix = String.valueOf(nextNum);
-        int suffixLength = suffix.length();
-        if (suffixLength < 4) {
-            for (int i = 0; i < 4 - suffixLength; i++) {
-                suffix = "0" + suffix;
-            }
-        }
-        return contractIdKey + suffix;
+////        String suffix = String.valueOf(nextNum);
+//        int suffixLength = suffix.length();
+//        if (suffixLength < 4) {
+//            for (int i = 0; i < 4 - suffixLength; i++) {
+//                suffix = "0" + suffix;
+//            }
+//        }+ suffix
+        return contractIdKey + substring;
     }
 }

@@ -107,7 +107,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Cacheable(value = "rubbish:user:address:list:uuid",key = "'rubbish:user:address:list:uuid:'+#p0")
+//    @Cacheable(value = "rubbish:user:address:list:uuid",key = "'rubbish:user:address:list:uuid:'+#p0")
     public List<UserAddressDto> getUserAddressByUuid(String uuid) {
         logger.info("获取地址列表(缓存) [{}]",uuid);
         // 获取用户信息

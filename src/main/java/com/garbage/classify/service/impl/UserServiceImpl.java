@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(value = "rubbish:user:info:uuid",key = "'rubbish:user:info:uuid:'+#p0")
+//    @Cacheable(value = "rubbish:user:info:uuid",key = "'rubbish:user:info:uuid:'+#p0")
     public TmUser queryUserInfoByUuid(String uuid) {
         log.info("根据用户uuid获取用户信息 uuid[{}]",uuid);
         return tmUserMapper.queryUserInfoByUuid(uuid);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Cacheable(value = "rubbish:user:info:list",key = "'rubbish:user:info:list'")
+//    @Cacheable(value = "rubbish:user:info:list",key = "'rubbish:user:info:list'")
     public List<TmUser> queryAllUserInfo() {
         log.info("获取当前所有有效的用户信息");
         // TODO: 2019/8/25 新增和编辑删除用户信息时需要清除该缓存
